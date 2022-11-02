@@ -11,20 +11,64 @@
 
 </head>
 <body>
-    <div class="player2Score">
-    <!-- bar the slides -->
-    <!-- vert line every 30 pts -->
-    <!-- total score -->
-    </div>
-    <div class="cardBoard">
-        <!-- player 2 cards --> 
-        <!-- deck  -  count area    crib -->
+    <div class="scoreBoard">
+        <label for="p2score" class="scoreBar"></label>
+        <meter id="p2score" value="50" max="121"></meter>
+        <div>
+            <h4>##</h4>
+            <p>AI Score</p>
+        </div>
+    <div class="cardArea">
+                <!-- player 2 cards --> 
+        <div class="playerCards">
+            <div class="card" id="p2Card0"></div>
+            <div class="card" id="p2Card1"></div>
+            <div class="card" id="p2Card2"></div>
+            <div class="card" id="p2Card3"></div>
+            <div class="card" id="p2Card4"></div>
+            <div class="card" id="p2Card5"></div>
+        </div>
+                <!-- deck  -  count area    crib -->
+        <div class="playRow">
+            <div>
+                <div class="card" id="deck"></div>
+            </div>
+            <div class="playArea">
+                <div class="card" id="playCard0"></div>
+                <div class="card" id="playCard1"></div>
+                <div class="card" id="playCard2"></div>
+                <div class="card" id="playCard3"></div>
+                <div class="card" id="playCard4"></div>
+                <div class="card" id="playCard5"></div>
+                <div class="card" id="playCard6"></div>
+                <div class="card" id="playCard7"></div>
+                <div class="card" id="playCard8"></div>
+                <div class="card" id="playCard9"></div>
+                <div class="card" id="playCard10"></div>
+                <div class="card" id="playCard11"></div>
+            </div>
+            <div>
+                <div class="card" id="crib"></div>
+            </div>
+        </div>
         <!-- player 1 cards -->
+        <div class="playerCards">
+            <div class="card" id="p1Card0"></div>
+            <div class="card" id="p1Card1"></div>
+            <div class="card" id="p1Card2"></div>
+            <div class="card" id="p1Card3"></div>
+            <div class="card" id="p1Card4"></div>
+            <div class="card" id="p1Card5"></div>
+        </div>
     </div>
-    <div class="player2Score">
-            <!-- bar the slides -->
-    <!-- vert line every 30 pts -->
-    <!-- total score -->
+    <div class="scoreBoard">
+        <label for="p1score"></label>
+        <meter id="p1score" value="0" max="121"></meter>
+        <div>
+            <h4>##</h4>
+            <p>Player Score</p>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
+</html>

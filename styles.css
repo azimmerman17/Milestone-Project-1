@@ -1,0 +1,50 @@
+/* * {
+    border: 1px solid black;
+} */
+
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.ScoreBoard {
+    display: flex;
+}
+
+meter {
+    height: 50px;
+    width: 80%;
+    border-radius: 25px;
+    margin: auto;
+    color: aqua;
+
+}
+
+
+.cardArea {
+    width: 95%;
+    margin: auto;
+
+}
+
+.card {
+    height: 100px;
+    width: 50px;
+    margin: 0 5px;
+}
+
+.playerCards, .playRow, .playArea {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: center;
+}
+
+.playRow {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-evenly;
+}

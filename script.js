@@ -1,7 +1,8 @@
 const suits = ['spades', 'diamonds', 'clubs', 'hearts'];
 const faceValues = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
-let deck = getDeck()
+//builds an unshuffled deck for the game !!USE LISTENER TO SHUFFLE DECK WHEN USER CLICKS START GAME!!
+const deck = getDeck()
 
 function getDeck() {
 	let deck =[]
@@ -37,7 +38,7 @@ function getDeck() {
 	return deck;
 };
 
-//shuffles the deck when needed -always need to call deck var
+//shuffles the deck when needed -always need to calls a deck var
 function shuffle(deck) {
 	for (let i = 0; i < 1000; i++) {
 		let card1 = Math.floor(Math.random() * 52)
@@ -50,17 +51,26 @@ function shuffle(deck) {
 	return deck
 };
 
-shuffle(deck)
+//shuffle(deck)
 console.log(deck)
-
+playDeck = cutDeck(deck)
 //function to cut the deck
+function cutDeck(playDeck) {
+    let cut = Math.floor(Math.random() * 52) //Bonus Time: Listener to allow user to pick card
+    tempDeck = deck.slice(0,cut)
+    deckCut = deck.slice(cut)
+
+    let newDeck = deckCut.concat(tempDeck)
+    return newDeck
+}
+console.log(playDeck)
 
 //cut cards to see who deals first
 	//p1 cuts
 	//p2 cuts
 		//low card deals
 
-//start game
+//start game -while loop to END GAME
 
 	//start round
 		//shuffle deck
