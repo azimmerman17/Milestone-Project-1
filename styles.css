@@ -7,32 +7,44 @@ html,
 body {
     padding: 0;
     margin: 0;
+    background-color: lime;
 }
 
 .ScoreBoard {
     display: flex;
+    height: 15%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+
 }
 
-meter {
+progress {
     height: 50px;
-    width: 80%;
-    border-radius: 25px;
-    margin: auto;
-    color: aqua;
+    width: 70%;
+}
 
+.score {
+    width: 10%;
 }
 
 
 .cardArea {
     width: 95%;
     margin: auto;
+    height: 70%;
 
 }
 
 .card {
     height: 100px;
-    width: 50px;
-    margin: 0 5px;
+    width: 75px;
+    margin: 0 px;
+    visibility: hidden;
+}
+
+#deck {
+    visibility: visible
 }
 
 .playerCards, .playRow, .playArea {
@@ -40,6 +52,8 @@ meter {
     flex-direction: row;
     padding: 10px;
     justify-content: center;
+    height: 150px;
+
 }
 
 .playRow {
@@ -48,3 +62,12 @@ meter {
     padding: 10px;
     justify-content: space-evenly;
 }
+
+.cardUnicode {
+    font-size: 100px;
+    color: blue;
+    background-color: #fff;
+    border: none;
+
+}
+

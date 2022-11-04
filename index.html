@@ -12,59 +12,62 @@
 </head>
 <body>
     <div class="scoreBoard">
-        <label for="p2score" class="scoreBar"></label>
-        <meter id="p2score" value="50" max="121"></meter>
-        <div>
+        <label for="aiScore" class="scoreBar"></label>
+        <progress  id="aiScore" value="50" max="121"></progress>
+        <div class="score">
             <h4>##</h4>
             <p>AI Score</p>
         </div>
     <div class="cardArea">
                 <!-- player 2 cards --> 
         <div class="playerCards">
-            <div class="card" id="p2Card0"></div>
-            <div class="card" id="p2Card1"></div>
-            <div class="card" id="p2Card2"></div>
-            <div class="card" id="p2Card3"></div>
-            <div class="card" id="p2Card4"></div>
-            <div class="card" id="p2Card5"></div>
+            <div class="card cardUnicode" id="aiCard0"></div>
+            <div class="card cardUnicode" id="aiCard1"></div>
+            <div class="card cardUnicode" id="aiCard2"></div>
+            <div class="card cardUnicode" id="aiCard3"></div>
+            <div class="card cardUnicode" id="aiCard4"></div>
+            <div class="card cardUnicode" id="aiCard5"></div>
         </div>
                 <!-- deck  -  count area    crib -->
         <div class="playRow">
             <div>
-                <div class="card" id="deck"></div>
+                <button class="card cardUnicode" id="deck">&#x1F0A0</button>
+                <p>Deck</p>
             </div>
             <div class="playArea">
-                <div class="card" id="playCard0"></div>
-                <div class="card" id="playCard1"></div>
-                <div class="card" id="playCard2"></div>
-                <div class="card" id="playCard3"></div>
-                <div class="card" id="playCard4"></div>
-                <div class="card" id="playCard5"></div>
-                <div class="card" id="playCard6"></div>
-                <div class="card" id="playCard7"></div>
-                <div class="card" id="playCard8"></div>
-                <div class="card" id="playCard9"></div>
-                <div class="card" id="playCard10"></div>
-                <div class="card" id="playCard11"></div>
+                <p class="card cardUnicode" id="playCard0"></p>
+                <div class="card cardUnicode" id="playCard1"></div>
+                <div class="card cardUnicode" id="playCard2"></div>
+                <div class="card cardUnicode" id="playCard3"></div>
+                <div class="card cardUnicode" id="playCard4"></div>
+                <div class="card cardUnicode" id="playCard5"></div>
+                <div class="card cardUnicode" id="playCard6"></div>
+                <div class="card cardUnicode" id="playCard7"></div>
+                <div class="card cardUnicode" id="playCard8"></div>
+                <div class="card cardUnicode" id="playCard9"></div>
+                <div class="card cardUnicode" id="playCard10"></div>
+                <div class="card cardUnicode" id="playCard11"></div>
             </div>
             <div>
-                <div class="card" id="crib"></div>
+                <p>Crib</p>
+                <div class="card cardUnicode" id="crib"></div>
+                
             </div>
         </div>
         <!-- player 1 cards -->
         <div class="playerCards">
-            <div class="card" id="p1Card0"></div>
-            <div class="card" id="p1Card1"></div>
-            <div class="card" id="p1Card2"></div>
-            <div class="card" id="p1Card3"></div>
-            <div class="card" id="p1Card4"></div>
-            <div class="card" id="p1Card5"></div>
+            <button class="card cardUnicode" id="playerCard0"></button>
+            <button class="card cardUnicode" id="playerCard1"></button>
+            <button class="card cardUnicode" id="playerCard2"></button>
+            <button class="card cardUnicode" id="playerCard3"></button>
+            <button class="card cardUnicode" id="playerCard4"></button>
+            <button class="card cardUnicode" id="playerCard5"></button>
         </div>
     </div>
     <div class="scoreBoard">
         <label for="p1score"></label>
-        <meter id="p1score" value="0" max="121"></meter>
-        <div>
+        <progress id="p1score" value="25" max="121"></progress>
+        <div class="score">
             <h4>##</h4>
             <p>Player Score</p>
         </div>
