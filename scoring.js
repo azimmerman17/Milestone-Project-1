@@ -44,14 +44,33 @@ function scorePairs(hand, points) {
     return points
 }
 
-function scoreStraight(hand, points) {
-
-}
-
-function scoreFlush (hand, points) {
-    let suit = ['spade','club','spade','spade','spade']
+function scoreRun(hand) {
     let count = 0
+    hand = hand.sort()
+     for (let i = 0; i < hand.length; i++) {   
+       for (let j = i + 1; j < hand.length; j++) {
+         for (let k = j + 1; k < hand.length; k++) {         
+          for (let l = k + 1; l < hand.length; l++) {
+            for (let m = l + 1; m < hand.length; m++) {
+              if (hand[i] + 1 === hand[j] &&hand[j] + 1 === hand[k] && hand[k] + 1 ===     hand[l] && hand[l] + 1 === hand[m]) {
+                count += 1
+              }
+            }; 
+            if (hand[i] + 1 === hand[j] &&hand[j] + 1 === hand[k] && hand[k] + 1 === hand[l]) {
+              count += 1
+            }  
+          };
+          if (hand[i] + 1 === hand[j] &&hand[j] + 1 === hand[k]) {
+            count += 3
+          }   
+        };
+      };
+    };
+    return count
+  }
 
+function scoreFlush (suit, crib) {
+    let count = 0
     for (let i = 0; i < 4; i++) {
         let flushSuit = suit[0]
         if (flushSuit === suit[i]) {
@@ -62,6 +81,10 @@ function scoreFlush (hand, points) {
         return count
     }
     }
+    if (crib === true && count < 5) {
+        count = 0
+    }
+    return count
 }
 
 

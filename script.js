@@ -1,8 +1,13 @@
 const suits = ['spades', 'diamonds', 'clubs', 'hearts'];
 const faceValues = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-let ai = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0, highPlay: 0, highCrib: 0, highCrib: 0}
-let player = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0, highPlay: 0, highCrib: 0, highCrib: 0}
+let ai = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0}
+let player = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0}
 let crib = []
+let starter = {}
+const aiCards = document.querySelectorAll('.ai-card')
+const playerCards = document.querySelectorAll('.player-card')
+const deckBtn = document.querySelector('#deck')
+
 //builds an unshuffled deck for the game !!USE LISTENER TO SHUFFLE DECK WHEN USER CLICKS START GAME!!
 const deck = getDeck()
 
@@ -52,15 +57,19 @@ function getDeck() {
             switch (card.suit) {
                 case 'spades':
                     card.hexcode = '&#x1F0A' + card.hex
+					card.color = 'black'
                     break
                 case 'diamonds':
                     card.hexcode = '&#x1F0C' + card.hex
+					card.color = 'red'
                     break
                 case 'clubs':
                     card.hexcode = '&#x1F0D' + card.hex
+					card.color = 'black'
                     break
                 case 'hearts':
                     card.hexcode = '&#x1F0B' + card.hex
+					card.color = 'red'
             
             }
         }
@@ -94,6 +103,7 @@ function cutDeck() {
 //cut cards to see who deals first
 //p1 cuts  //p2 cuts  //low card deals --same card redo
 function getDealer() {
+		let dealer = 'null'
         let cut = Math.floor(Math.random() * 52) 
         while (cut <10 || cut > 48) {
             cut = Math.floor(Math.random() * 52)
@@ -103,12 +113,15 @@ function getDealer() {
 
         if (playerCard.rank < aiCard.rank) {
         player.dealer = true
+		dealer = player
         } else if (playerCard.rank > aiCard.rank) {
             ai.dealer = true
+			dealer = ai
         } else {
             shuffle(deck)
             getDealer()
-        }   
+        } 
+	return dealer
 }
 
 // deals cards - 6 cards each - pass in the play deck
@@ -119,45 +132,87 @@ function dealCards(deck, dealer, firstCard) {
 		dealer.hand.push(deck[0])
 		deck.shift()
 	}
+	displayCards(player.hand)
+	displayCards(ai.hand)
 	return deck
 }
 
-function buildCrib(crib) {  
-	crib = []
-	//listener to select 2 cards
-		//set cards.loc to crib
-	let discard = Math.floor(Math.random() * 6)
+function displayCards(hand) {
+	for(let i = 0; i <hand.length; i++) {
+		if(hand === ai.hand) {
+			hand[i].loc = 'ai'
+			aiCards[i].innerHTML = ('&#x1F0A0')
+			aiCards[i].style.color = 'blue'
+		} else {
+			hand[i].loc = 'player'
+			playerCards[i].innerHTML = hand[i].hexcode
+			playerCards[i].style.color = hand[i].color
+		}
+	}
+}
+
+async function buildCrib(starter) {  
+	let click = 0
+		for (let i = 0; i < playerCards.length; i++) {
+			playerCards[i].addEventListener('click', (() => {
+				click += 1
+				if (click < 3) {
+					player.hand[i].loc = 'crib'
+					playerCards[i].style.display = 'none'
+					crib.push(player.hand[i])
+					console.log(crib)
+				} else {deckBtn.innerHTML = starter.hexcode}  // terrible way to do it 
+			}))
+
+		}
+	aiDiscard()
+	
+	return
+}
+
+function aiDiscard() {
+	let discard =  Math.floor(Math.random() * 6)
 	crib.push(ai.hand[discard])
-	let discard1 = Math.floor(Math.random() * 6)
 	ai.hand[discard].loc = 'crib'
+	let discard1 = Math.floor(Math.random() * 6)
 	while (discard === discard1) {
 		discard1 = Math.floor(Math.random() * 6)	
 	}
 	crib.push(ai.hand[discard1])
 	ai.hand[discard1].loc = 'crib'
 	ai.hand = buildNewhand(ai.hand)
-	return crib	
+	aiCards[5].style.display = 'none'
+	aiCards[4].style.display = 'none'
+	const cribDiv = document.getElementById('crib')
+		cribDiv.innerHTML = '&#x1F0A0'
 }
+
+
 
 function buildNewhand(hand) {
 	newHand = []
 	for (let i = 0; i < hand.length; i++) {
-		if (hand[i] != 'crib') {
+		if (hand[i].loc != 'crib') {
 			newHand.push(hand[i])
 		}
 	}
+	return newHand
 }
 
-function communalCard(deck, dealer) {
+function starterCard(deck, dealer) {
+	deck =cutDeck()
 	let card = deck[0];
+	deck[0].loc = 'starter'
 	if (card.faceValue === 'J') {
-		dealer.points += 1
+		dealer.score += 1
 		dealer.playPoints += 1
 		console.log('His nobs: 1') //display on screen
+		
 	}
+	return card
 }
 
-function playRound(dealer, firstcard) {
+function playPhase(dealer, firstcard) {
 	let playCards = 0
 	while (playCards < dealer.hand.length + firstcard.hand.length) {
 		let count = 0 //??
@@ -209,7 +264,7 @@ function playPoints(player, count, cards) {
 		//text content = '15' for 2
 	}
 	points += playPairs(cards) 
-	points += playStraights(cards)  //no clue think on this later
+	points += playRuns(cards)  //no clue think on this later
 	if (count === 31) {
 		points += 2
 		//textContent '31 of 2"
@@ -245,16 +300,32 @@ function playPairs(cards) {
 //start game -while loop to END GAME
 
 	//start round 
-//DONE		//shuffle deck!!
+function dealingPhase(gameDeck) {
+	deckBtn.removeEventListener('click', (() => {
+		deckBtn.innerHTML = '&#x1F0A0'
+		dealingPhase()
+	}))
+	let dealer = getDealer()	
+	let nonDealer = null
+	if (dealer = player) {
+		nonDealer = ai
+	} else {nonDealer = player}
+	dealCards(gameDeck, dealer,nonDealer)
+	starter = starterCard(gameDeck, dealer)
+	buildCrib(starter)
+}
 
-        		// deal 6 cards -- non dealer first
-			//either .pop() or for loop - put in in a new arrey
 
-		//players discard 2 to crib
-			//listener for click - maybe hot keys if time
-		//flip starter card
+//intiate round
+deckBtn.addEventListener('click', (() => {
+	deckBtn.innerHTML = '&#x1F0A0'
+	let gameDeck = shuffle(getDeck(deck)); 
+	starter = {} 
+	dealingPhase(gameDeck)
+	console.log(gameDeck)
+	//playPhase()
+}))
 
-			// 'J' = POINTS
 	// play cards
 		//non dealer starts
 		// keep track of turns
