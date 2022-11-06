@@ -12,6 +12,7 @@ const deckBtn = document.querySelector('#deck')
 const deck = getDeck()
 
 //startGame() //eventlistener function?
+//intiateRound()
 
 function getDeck() {
 	let deck =[]
@@ -151,7 +152,7 @@ function displayCards(hand) {
 	}
 }
 
-async function buildCrib(starter) {  
+function buildCrib(starter) {  
 	let click = 0
 		for (let i = 0; i < playerCards.length; i++) {
 			playerCards[i].addEventListener('click', (() => {
@@ -160,14 +161,15 @@ async function buildCrib(starter) {
 					player.hand[i].loc = 'crib'
 					playerCards[i].style.display = 'none'
 					crib.push(player.hand[i])
-					console.log(crib)
-				} else {deckBtn.innerHTML = starter.hexcode}  // terrible way to do it 
+				} else {
+					deckBtn.innerHTML = starter.hexcode
+					deckBtn.style.color = starter.color
+				}
+				// terrible way to do it 
 			}))
 
 		}
 	aiDiscard()
-	
-	return
 }
 
 function aiDiscard() {
@@ -213,9 +215,10 @@ function starterCard(deck, dealer) {
 }
 
 function playPhase(dealer, firstcard) {
+	console.log(dealer)
 	let playCards = 0
 	while (playCards < dealer.hand.length + firstcard.hand.length) {
-		let count = 0 //??
+		let count = 0
 		firstcard.go = false
 		dealer.go = false
 		while (count <= 31 || (firstcard.go === false && dealer.go === false)) {
@@ -301,10 +304,6 @@ function playPairs(cards) {
 
 	//start round 
 function dealingPhase(gameDeck) {
-	deckBtn.removeEventListener('click', (() => {
-		deckBtn.innerHTML = '&#x1F0A0'
-		dealingPhase()
-	}))
 	let dealer = getDealer()	
 	let nonDealer = null
 	if (dealer = player) {
@@ -313,19 +312,20 @@ function dealingPhase(gameDeck) {
 	dealCards(gameDeck, dealer,nonDealer)
 	starter = starterCard(gameDeck, dealer)
 	buildCrib(starter)
+	//playPhase(dealer,nonDealer)
 }
 
 
-//intiate round
-deckBtn.addEventListener('click', (() => {
-	deckBtn.innerHTML = '&#x1F0A0'
-	let gameDeck = shuffle(getDeck(deck)); 
-	starter = {} 
-	dealingPhase(gameDeck)
-	console.log(gameDeck)
-	//playPhase()
-}))
 
+	let options = {once: true}
+	deckBtn.addEventListener('click', (() => {
+		deckBtn.innerHTML = '&#x1F0A0'
+		console.log('click')
+		let gameDeck = shuffle(getDeck(deck)); 
+		starter = {} 
+		dealingPhase(gameDeck)
+		//playPhase()
+	}), options)
 	// play cards
 		//non dealer starts
 		// keep track of turns

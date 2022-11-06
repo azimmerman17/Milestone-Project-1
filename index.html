@@ -12,10 +12,12 @@
 </head>
 <body>
     <div class="scoreBoard">
-        <label for="aiScore" class="scoreBar"></label>
         <progress  id="aiScore" value="50" max="121"></progress>
-        <div class="score">
+        <label for="aiScore" class="scoreBar">
             <h4>##</h4>
+        </label>
+        <div class="score">
+           
 
         </div>
     <div class="cardArea">
@@ -32,7 +34,6 @@
         <div class="playRow">
             <div>
                 <button class="card cardUnicode" id="deck">&#x1F0A0</button>
-                <p>Deck</p>
             </div>
             <div class="playArea">
                 <p class="card cardUnicode" id="playCard0"></p>
@@ -49,7 +50,6 @@
                 <div class="card cardUnicode" id="playCard11"></div>
             </div>
             <div>
-                <p>Crib</p>
                 <div class="card cardUnicode" id="crib"></div>
                 
             </div>
@@ -65,11 +65,11 @@
         </div>
     </div>
     <div class="scoreBoard">
-        <label for="p1score"></label>
         <progress id="p1score" value="25" max="121"></progress>
-        <div class="score">
+        <label for="p1score">
             <h4>##</h4>
-        </div>
+        </label>
+        
     </div>
     <script src="script.js"></script>
 </body>

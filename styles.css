@@ -1,27 +1,38 @@
-* {
+/* * {
     border: 1px solid black;
-}
+} */
 
 
 html,
 body {
     padding: 0;
     margin: 0;
-    /* background-color: blue; */
+    /* background-color: yellow; */
 }
 
 .ScoreBoard {
     display: flex;
-    height: 15%;
+    height: 100px;
     flex-direction: row;
     flex-wrap: nowrap;
+    width: 100%;
+    margin: auto;
 
 
 }
 
+label, h4 {
+    font-size: xx-large;
+    height: 50px;
+    width: 10%;
+    text-align: center;
+    margin: 20px;
+}
 progress {
     height: 50px;
-    width: 70%;
+    width: 85%;
+    margin: 10px
+    ;
 }
 
 .score {
@@ -32,7 +43,7 @@ progress {
 .cardArea {
     width: 95%;
     margin: auto;
-    height: 70%;
+    height: 500px;
     
 
 }
