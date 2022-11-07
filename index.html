@@ -12,9 +12,9 @@
 </head>
 <body>
     <div class="scoreBoard">
-        <progress  id="aiScore" value="50" max="121"></progress>
+        <progress  id="aiScore" value="0" max="121"></progress>
         <label for="aiScore" class="scoreBar">
-            <h4>##</h4>
+            <h4 id="aiScoreTxt">0</h4>
         </label>
         <div class="score">
            
@@ -22,21 +22,31 @@
         </div>
     <div class="cardArea">
                 <!-- player 2 cards --> 
-        <div class="playerCards">
-            <div class="ai-card card cardUnicode" id="aiCard0"></div>
-            <div class="ai-card card cardUnicode" id="aiCard1"></div>
-            <div class="ai-card card cardUnicode" id="aiCard2"></div>
-            <div class="ai-card card cardUnicode" id="aiCard3"></div>
-            <div class="ai-card card cardUnicode" id="aiCard4"></div>
-            <div class="ai-card card cardUnicode" id="aiCard5"></div>
+        <div class="playerCards">  
+            <div class="playerIcon">
+                <i>ai</i>
+                <p class="dealer" id="aiDealer"></p>
+            </div>
+            <div class="playerCards">
+                <div class="ai-card card cardUnicode" id="aiCard0"></div>
+                <div class="ai-card card cardUnicode" id="aiCard1"></div>
+                <div class="ai-card card cardUnicode" id="aiCard2"></div>
+                <div class="ai-card card cardUnicode" id="aiCard3"></div>
+                <div class="ai-card card cardUnicode" id="aiCard4"></div>
+                <div class="ai-card card cardUnicode" id="aiCard5"></div>
+            </div>
+            <div>
+                <div class="card cardUnicode" id="aiCrib"></div>
+                
+            </div>
         </div>
-                <!-- deck  -  count area    crib -->
+                <!-- deck  -  count area    info area -->
         <div class="playRow">
             <div>
                 <button class="card cardUnicode" id="deck">&#x1F0A0</button>
             </div>
             <div class="playArea">
-                <p class="card cardUnicode" id="playCard0"></p>
+                <div class="card cardUnicode" id="playCard0"></div>
                 <div class="card cardUnicode" id="playCard1"></div>
                 <div class="card cardUnicode" id="playCard2"></div>
                 <div class="card cardUnicode" id="playCard3"></div>
@@ -49,25 +59,39 @@
                 <div class="card cardUnicode" id="playCard10"></div>
                 <div class="card cardUnicode" id="playCard11"></div>
             </div>
+            <div class="info">
+                <button id="infoBtn">NEW GAME</button>
+                <p class="infoP" id="info1"></p>
+                <p class="infoP"></p>
+                <p class="infoP"></p>
+                <p class="infoP"></p>
+                <p class="infoP"></p>
+            </div>
+        </div>
+        <div>
+            <div class="playerIcon">
+                <i>player</i>
+                <p class="dealer" id="playerDealer"></p>
+            </div>
+            <div class="playerCards">
+                <button class="player-card card cardUnicode" id="playerCard0"></button>
+                <button class="player-card card cardUnicode" id="playerCard1"></button>
+                <button class="player-card card cardUnicode" id="playerCard2"></button>
+                <button class="player-card card cardUnicode" id="playerCard3"></button>
+                <button class="player-card card cardUnicode" id="playerCard4"></button>
+                <button class="player-card card cardUnicode" id="playerCard5"></button>
+            </div>
             <div>
-                <div class="card cardUnicode" id="crib"></div>
+                <div class="card cardUnicode" id="playerCrib"></div>
                 
             </div>
         </div>
-        <!-- player 1 cards -->
-        <div class="playerCards">
-            <button class="player-card card cardUnicode" id="playerCard0"></button>
-            <button class="player-card card cardUnicode" id="playerCard1"></button>
-            <button class="player-card card cardUnicode" id="playerCard2"></button>
-            <button class="player-card card cardUnicode" id="playerCard3"></button>
-            <button class="player-card card cardUnicode" id="playerCard4"></button>
-            <button class="player-card card cardUnicode" id="playerCard5"></button>
-        </div>
+    </div>
     </div>
     <div class="scoreBoard">
-        <progress id="p1score" value="25" max="121"></progress>
+        <progress id="p1score" value="0" max="121"></progress>
         <label for="p1score">
-            <h4>##</h4>
+            <h4 id="p1ScoreTxt">0</h4>
         </label>
         
     </div>

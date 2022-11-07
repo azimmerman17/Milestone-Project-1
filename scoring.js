@@ -89,4 +89,42 @@ function scoreFlush (suit, crib) {
 
 
 //play scoring
+function playPoints(player, count, cards) {
+	let points = 0 
+	if (count === 15) {
+		points += 2
+		//text content = '15' for 2
+	}
+	points += playPairs(cards) 
+	points += playRuns(cards)  //no clue think on this later
+	if (count === 31) {
+		points += 2
+		//textContent '31 of 2"
+	}
+	return points
+}
 
+function playPairs(cards) {
+	let points = 0
+	let pairs = 0
+		for (let i = cards.length - 1; i = 0; i--) {
+			if (cards[i].faceValue === cards[i-1].faceValue) {
+			pairs += 1
+			} else break
+		}
+		switch(pairs) {
+			case 1: 
+				points = 2
+				//textContent = 'Pair for 2'
+				break
+			case 2: 
+				points = 6
+				// textContent = 'Three of a Kind for 6'
+				break
+			case 2: 
+				points = 12
+				// textContent = 'Four of a Kind for 12'
+				break
+		}
+	return points
+}
