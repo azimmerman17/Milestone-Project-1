@@ -3,15 +3,17 @@ const faceValues = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q',
 let ai = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0}
 let player = {score: 0, dealer: false, hand: [], playPoints: 0, handPoints: 0, cribPoints: 0}
 let crib = []
+let playRound = {playedCards: 0, setCards: [], count: 0, goPts: 1}
 const btns = {
 	aiCards: document.querySelectorAll('.ai-card'),
 	playerCards: document.querySelectorAll('.player-card'),
 	deckBtn: document.querySelector('#deck'),
-	infoBtn: document.querySelector('#infoBtn')
+	infoBtn: document.querySelector('#infoBtn'),
+	playArea: document.querySelectorAll('.play-Card')
 }
 
 //builds an unshuffled deck for the game !!USE LISTENER TO SHUFFLE DECK WHEN USER CLICKS START GAME!!
-const deck = getDeck()
+let deck = getDeck()
 
 //startGame() //eventlistener function?
 //intiateRound()
@@ -119,15 +121,19 @@ function cutDeck() {
     return newDeck
 }
 
-function updateScore() {
-	let aiScore = document.getElementById('aiScore')
-		aiScore.value = ai.score
-	let aiScoreTxt = document.getElementById('aiScoreTxt')
-		aiScoreTxt.innerHTML = ai.score
-	let playerScore = document.getElementById('p1Score')
-		playerScore.value = player.score
-	let playerScoreTxt = document.getElementById('p1ScoreTxt')
-		playerScoreTxt.innerHTML = player.score
+function updateScore(who) {
+	if (who === ai) {
+		let aiScore = document.getElementById('aiScore')
+			aiScore.value = ai.score
+		let aiScoreTxt = document.getElementById('aiScoreTxt')
+			aiScoreTxt.innerHTML = ai.score
+	} if (who === player) {
+		let playerScore = document.getElementById('player-score')
+			playerScore.value = player.score
+		let playerScoreTxt = document.getElementById('player-score-txt')
+			playerScoreTxt.innerHTML = player.score
+	}
+
 }
 
 initiate()
@@ -179,7 +185,7 @@ function setDealer() {
 			btns.infoBtn.style.visibility = 'visible'
 			btns.infoBtn.innerHTML = 'DEAL'
 			let txt = document.querySelector('#info1')
-			txt.innerHTML = ''
+			txt.innerHTML = 'Low card deals first'
 			startGame()
 		}),options)
 }
@@ -188,10 +194,10 @@ function setDealer() {
 function startGame () {
 	//  while (ai.score < 121 || player.score < 121) {
 		let options = {once: true}
-		let playDeck = deck
+		deck = getDeck()
 		btns.infoBtn.addEventListener('click', (() => {
-			shuffle(playDeck)
-			dealCards(playDeck)
+			shuffle(deck)
+			dealCards(deck)
 		}), options)
 	
 	// }
@@ -207,12 +213,12 @@ function dealCards(deck) {
 		dealer.hand.push(deck[0])
 		deck.shift()
 	}
-	displayCards(player.hand)
-	displayCards(ai.hand)
+	displayHands(player.hand)
+	displayHands(ai.hand)
 	buildCrib(deck)
 }
 
-function displayCards(hand) {
+function displayHands(hand) {
 	for(let i = 0; i <hand.length; i++) {
 		if(hand === ai.hand) {
 			hand[i].loc = 'ai'
@@ -226,45 +232,53 @@ function displayCards(hand) {
 	}
 }
 
-//
+function displayCard(card) {
+	let place = document.getElementById(`play-Card${playRound.playedCards}`)
+		place.innerHTML = card.hexcode
+		place.style.color = card.color
+}
+
 function buildCrib(deck) { 
 	let selectedCount = 0
 	btns.infoBtn.style.visibility = 'visible'
 	btns.infoBtn.innerHTML = 'CONFIRM'
 	let txt = document.querySelector('#info1')
-			txt.innerHTML = `Select cards for crib`
+		txt.innerHTML = `Select 2 cards for crib`
 	for (let i = 0; i < btns.playerCards.length; i++) {
 		btns.playerCards[i].addEventListener('click', (() => {
 			if(player.hand[i].loc === 'player' && selectedCount < 2) {
 				player.hand[i].loc = 'crib'
 				btns.playerCards[i].style.color = 'green'
 				selectedCount += 1
-			} else if (player.hand[i].loc === 'crib') { 
+			} else {
 				player.hand[i].loc = 'player'
 				btns.playerCards[i].style.color = player.hand[i].color
 				selectedCount -= 1
-			}  else {}
+			}
 			}))
+		
 	}
-	if (crib.length < 4) {
 		btns.infoBtn.addEventListener('click', (() => {
-			let dealer = getDealer()
-			if(selectedCount > 1) {
-				playerCribDiscard()
-				aiCribDiscard()
-			if (dealer === player) {
-					const cribDiv = document.getElementById('playerCrib')
-					cribDiv.innerHTML = '&#x1F0A0'
-				} else {
-					const cribDiv = document.getElementById('aiCrib')
-					cribDiv.innerHTML = '&#x1F0A0'	
-			 	}			
+			if (selectedCount === 2) {
+			confirmCrib()
+			selectedCount = 100
 			setStarterCard(deck)
 			}
-		}))
-	}
-
-		
+		}))	
+	//}	
+}
+function confirmCrib() {
+	let dealer = getDealer()	
+	playerCribDiscard()
+	aiCribDiscard()
+	if (dealer === player) {
+		const cribDiv = document.getElementById('playerCrib')
+		cribDiv.innerHTML = '&#x1F0A0'
+	} else {
+		const cribDiv = document.getElementById('aiCrib')
+		cribDiv.innerHTML = '&#x1F0A0'	
+	}			
+	
 }
 
 function playerCribDiscard() {
@@ -275,9 +289,9 @@ function playerCribDiscard() {
 		} 
 	}
 	player.hand = buildNewHand(player.hand)
-	displayCards(player.hand)
-	btns.playerCards[4].style.display = 'none'
-	btns.playerCards[5].style.display = 'none'
+	displayHands(player.hand)
+	btns.playerCards[4].style.visibility = 'hidden'
+	btns.playerCards[5].style.visibility = 'hidden'
 }
 
 function aiCribDiscard() {
@@ -292,9 +306,9 @@ function aiCribDiscard() {
 		crib.push(ai.hand[discard1])
 		ai.hand[discard1].loc = 'crib'
 		ai.hand = buildNewHand(ai.hand)
-		displayCards(ai.hand)
-		btns.aiCards[5].style.display = 'none'
-		btns.aiCards[4].style.display = 'none'
+		displayHands(ai.hand)
+		btns.aiCards[5].style.visibility = 'hidden'
+		btns.aiCards[4].style.visibility = 'hidden'
 	}
 }
 
@@ -309,100 +323,173 @@ function buildNewHand(hand) {
 }
 
 function setStarterCard(deck) {
-	btns.infoBtn.innerHTML = 'Cut Deck'
+	btns.infoBtn.innerHTML = 'CUT DECK'
 	let txt = document.querySelector('#info1')
 			txt.innerHTML = ''
 	let dealer = getDealer()
 	let options = {once: true}
 	btns.infoBtn.addEventListener('click',(() => {
-		deck = cutDeck()
-		let card = deck[0];
-		btns.deckBtn.innerHTML = deck[0].hexcode
-		btns.deckBtn.style.color = deck[0].color
-		deck[0].loc = 'starter'
-		if (card.faceValue === 'J') {
-			dealer.score += 1
-			dealer.playPoints += 1
-			let txt = document.querySelector('#info1')
-			txt.innerHTML = `His heels for 1`
-		}
-		updateScore()
-		playPhase(deck)
-	}) , options)
+			deck = cutDeck()
+			let card = deck[0];
+			btns.deckBtn.innerHTML = deck[0].hexcode
+			btns.deckBtn.style.color = deck[0].color
+			deck[0].loc = 'starter'
+			if (card.faceValue === 'J') {
+				dealer.score += 1
+				dealer.playPoints += 1
+				let txt = document.querySelector('#info1')
+				txt.innerHTML = `His heels for 1`
+				updateScore(dealer)
+			}	
+			playPhase()
+	}), options)
 	
 }
 
 function playPhase() {
+	console.log('playPhase')
+	btns.infoBtn.innerHTML = playRound.count
 	let dealer = getDealer()
 	let nonDealer = getNonDealer()
-	console.log(dealer)
-	let playCards = 0
-	while (playCards < dealer.hand.length + firstcard.hand.length) {
-		let count = 0
-		firstcard.go = false
-		dealer.go = false
-		while (count <= 31 || (firstcard.go === false && dealer.go === false)) {
-			let setCards = []
-			if (firstcard.go = false) {
-				count += playCard(count, firstcard, setCards, dealer)
-			}
-			if (dealer.go = false) {
-				count += playCard(count, dealer, setCards, firstcard)
-			}
-		}
+	nonDealer.go = false
+	dealer.go = false
+	nonDealer.turn = true
+	//while (playRound.playedCards < 8) {
+		if(player.turn === true) {
+			playCard(player)
+		} else {playCard(ai)}
+	//}
+}
+
+function playCard(turn) {	
+	// if (playRound.playedCards === 8) {
+	// 	countHands()
+	// }
+	if (ai.go === true && player.go === true) {
+		resetPlay(turn)
+	}		
+	let canPlay = checkGo(turn)
+	if  (canPlay === false) {
+		turn.go = true
+	} if (player.turn === true){
+		playerTurn()
+	} else {
+		 aiTurn()
 	}
 }
 
-function playCard(count, player, setCards, other) {
-	let goCheck = count //check for Go 
-	let cardsLeft = player.hand.length  
-	let playableCards = []
-	for (let i = 0; i < player.hand.length; i++) {
-		if (player.hand[i].played != true && goCheck + player.hand [i].gameValue <= 31) {
-			player.hand[i].index = i
-			playableCards.push(player.hand[i])
-		} else {cardsLeft -= 1}
-		if (cardsLeft > 0) {
-			let indexPc = Math.floor(Math.random() * playableCards.length)
-			setCards.push(playableCards[indexPc])
-			let indexOg = playableCards[indexPc].index
-			player.hand[indexOg].played = true
-			count += player.hand[indexOg].gameValue
-			let playPts= playPoints(player, count, setCards)
-			player.handPoints += playPts
-			player.points += playPts
+//check to see if there is a vaild play
+function checkGo(turn) {
+	canPlay = false
+	for (let i = 0; i < turn.hand.length; i++) {
+		 if (turn.hand[i].gameValue + playRound.count <= 31 && turn.hand.loc !== 'played') {
+		 	canPlay = true
 		} else {
-			player.go = true
-			other.points +=1
-			other.playpoints += 1
+			turn.go = true
 		}
 	}
-	return count
+	return canPlay
 }
+
+function playerTurn() {
+	player.turnCount += 1
+	if (player.go === false) {
+		let options = {once: true}
+		for (let i = 0; i < btns.playerCards.length; i++) {
+			btns.playerCards[i].addEventListener('click', function () {
+				playerPlay(i)
+			}, options)
+		}
+	} else {
+		scoreGo(ai)
+		changeTurn()
+		playCard(ai)
+	
+	}
+}
+
+function playerPlay(i) { 
+		console.log('click')
+	if(player.hand[i].gameValue + playRound.count <= 31) {
+		playRound.count += player.hand[i].gameValue
+		btns.playerCards[i].style.visibility = 'hidden'
+		player.hand[i].loc = 'played'
+		playRound.setCards.push(player.hand[i])
+		btns.infoBtn.innerHTML = playRound.count
+		displayCard(player.hand[i])
+		playRound.playedCards += 1
+		changeTurn()
+		playCard(ai)
+	}
+	else {playerTurn()}
+
+
+}
+
+function aiTurn() {
+	console.log('aiTurn')
+	if (ai.go === false) {
+		let card = Math.floor(Math.random() * 4)
+		while (ai.hand[card] === 'played' || ai.hand[card].gameValue + playRound.count > 31) {
+			card = Math.floor(Math.random() * 4)
+		}
+		playRound.count += ai.hand[card].gameValue
+		btns.aiCards[card].style.visibility = 'hidden'
+		ai.hand[card].loc = 'played'
+		playRound.setCards.push(ai.hand[card])
+		btns.infoBtn.innerHTML = playRound.count
+		displayCard(ai.hand[card])
+		playRound.playedCards += 1
+		changeTurn()
+		playCard(player)
+	}	else {
+		scoreGo(player)
+		changeTurn()
+		playCard(player)
+	}
+}
+
+function changeTurn() {
+	if (player.turn === true) {
+		ai.turn = true
+		player.turn = false
+	} else {
+		ai.turn = false
+		player.turn = true
+	}
+};
+
+function resetPlay(turn) {
+	playRound.count = 0
+	playRound.setCards = []
+	playRound.goPts = 1
+	player.go = false 
+	ai.go = false
+	playCard(turn)
+}
+
+function countHands() {
+	for (let i = 0; i < btns.playArea.length;i++) {
+		btns.playArea[i].innerHTML = ''
+	}
+	let dealer = getdealer()
+	let nonDealer = getNonDealer()
+	scoreHand(nonDealer)
+	scoreHand(dealer)
+	scoreCrib(dealer)
+	 
+}
+
+
+
+// select card
+//check if vaild card
+//score
+//change turns
+
 
 
 // let options = {once: true}
-// deckBtn.addEventListener('click', (() => {
-// 	deckBtn.innerHTML = '&#x1F0A0'
-// 	let gameDeck = shuffle(getDeck(deck)); 
-// 	starter = {} 
-// 	dealingPhase(gameDeck)
-// 	//playPhase()
-// }), options)
-// 	//start round 
-
-function dealingPhase(gameDeck) {
-	let dealer = getDealer()	
-	let nonDealer = null
-	if (dealer = player) {
-		nonDealer = ai
-	} else {nonDealer = player}
-	dealCards(gameDeck, dealer,nonDealer)
-	starter = starterCard(gameDeck, dealer)
-	buildCrib(starter)
-	//playPhase(dealer,nonDealer)
-}
-
 
 
 

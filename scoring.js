@@ -1,5 +1,33 @@
 //hand scoring
-function score15(hand, points) { 
+function scoreHand(turn) {
+    turn.hand.push(deck[0])
+    let pts = 0
+    pts += score15(turn.hand)
+    pts += scorePairs(turn.hand)
+    pts += scoreRun(turn.hand)
+    pts += scoreFlush(turn.hand, false)
+    pts += rightJack(turn.hand)
+    turn.score += pts
+    turn.handPoints += pts
+    updateScore(turn)
+}
+
+function scoreCrib(turn) {
+    turn.hand.push(deck[0])
+    let pts = 0
+    pts += score15(turn.hand)
+    pts += scorePairs(turn.hand)
+    pts += scoreRun(turn.hand)
+    pts += scoreFlush(turn.hand, true)
+    pts += rightJack(turn.hand)
+    turn.score += pts
+    turn.handPoints += pts
+    updateScore(turn)
+}
+
+
+
+function score15(hand) { 
     hand = [1,5,2,3,4]  //player hand
     let count = 0
 
@@ -29,7 +57,7 @@ function score15(hand, points) {
     return points
 }
 
-function scorePairs(hand, points) {
+function scorePairs(hand) {
     hand = [1,5,2,3,4]  //player hand
     let count = 0
 
@@ -68,8 +96,8 @@ function scoreRun(hand) {
     };
     return count
   }
-
-function scoreFlush (suit, crib) {
+//rework
+function scoreFlush(suit, crib) {
     let count = 0
     for (let i = 0; i < 4; i++) {
         let flushSuit = suit[0]
@@ -87,21 +115,46 @@ function scoreFlush (suit, crib) {
     return count
 }
 
+function rightJack(hand) {
+    let pts = 0
+    for (let i = 0; i < 4; i++) {
+        if (hand[i].suit === hand[4].suit && hand[i].faceValue === 'J') {
+            pts += 1
+        }
+
+    }
+    return pts
+}
+
 
 //play scoring
-function playPoints(player, count, cards) {
-	let points = 0 
-	if (count === 15) {
-		points += 2
-		//text content = '15' for 2
+function scoreGo(turn) {
+    if (playRound.goPts > 0) {
+        let pts = playRound.goPts
+        turn.score += pts
+        turn.playPoints += pts
+        updateScore(turn)
+        playRound.goPts = 0
+    }
+
+}
+
+function playPoints(turn) {
+	let pts = 0 
+	if (playRound.count === 15) {
+		pts += 2
 	}
-	points += playPairs(cards) 
-	points += playRuns(cards)  //no clue think on this later
+	pts += playPairs(cards) 
+	pts += playRuns(cards)  //no clue think on this later
 	if (count === 31) {
-		points += 2
-		//textContent '31 of 2"
-	}
-	return points
+		points += 1
+        points += playRound.goPts
+        player.go === true
+        ai.go === true
+    }
+    turn.score += pts
+    turn.playPoints += pts
+    updateScore(turn)
 }
 
 function playPairs(cards) {
@@ -112,7 +165,7 @@ function playPairs(cards) {
 			pairs += 1
 			} else break
 		}
-		switch(pairs) {
+		switch (pairs) {
 			case 1: 
 				points = 2
 				//textContent = 'Pair for 2'
@@ -121,7 +174,7 @@ function playPairs(cards) {
 				points = 6
 				// textContent = 'Three of a Kind for 6'
 				break
-			case 2: 
+			case 3: 
 				points = 12
 				// textContent = 'Four of a Kind for 12'
 				break

@@ -16,10 +16,7 @@
         <label for="aiScore" class="scoreBar">
             <h4 id="aiScoreTxt">0</h4>
         </label>
-        <div class="score">
-           
-
-        </div>
+    </div>
     <div class="cardArea">
                 <!-- player 2 cards --> 
         <div class="playerCards">  
@@ -46,18 +43,15 @@
                 <button class="card cardUnicode" id="deck">&#x1F0A0</button>
             </div>
             <div class="playArea">
-                <div class="card cardUnicode" id="playCard0"></div>
-                <div class="card cardUnicode" id="playCard1"></div>
-                <div class="card cardUnicode" id="playCard2"></div>
-                <div class="card cardUnicode" id="playCard3"></div>
-                <div class="card cardUnicode" id="playCard4"></div>
-                <div class="card cardUnicode" id="playCard5"></div>
-                <div class="card cardUnicode" id="playCard6"></div>
-                <div class="card cardUnicode" id="playCard7"></div>
-                <div class="card cardUnicode" id="playCard8"></div>
-                <div class="card cardUnicode" id="playCard9"></div>
-                <div class="card cardUnicode" id="playCard10"></div>
-                <div class="card cardUnicode" id="playCard11"></div>
+                <div class="card cardUnicode play-Card" id="play-Card0"></div>
+                <div class="card cardUnicode play-Card" id="play-Card1"></div>
+                <div class="card cardUnicode play-Card" id="play-Card2"></div>
+                <div class="card cardUnicode play-Card" id="play-Card3"></div>
+                <div class="card cardUnicode play-Card" id="play-Card4"></div>
+                <div class="card cardUnicode play-Card" id="play-Card5"></div>
+                <div class="card cardUnicode play-Card" id="play-Card6"></div>
+                <div class="card cardUnicode play-Card" id="play-Card7"></div>
+
             </div>
             <div class="info">
                 <button id="infoBtn">NEW GAME</button>
@@ -89,12 +83,14 @@
     </div>
     </div>
     <div class="scoreBoard">
-        <progress id="p1score" value="0" max="121"></progress>
-        <label for="p1score">
-            <h4 id="p1ScoreTxt">0</h4>
+        <progress id="player-score" value="0" max="121"></progress>
+        <label for="player-score">
+            <h4 id="player-score-txt">0</h4>
         </label>
         
     </div>
+    <script src="scoring.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
