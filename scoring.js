@@ -1,3 +1,21 @@
+function updateScore(who) {
+	if (who === ai) {
+		let aiScore = document.getElementById('aiScore')
+			aiScore.value = ai.score
+		let aiScoreTxt = document.getElementById('aiScoreTxt')
+			aiScoreTxt.innerHTML = ai.score
+	} if (who === player) {
+		let playerScore = document.getElementById('player-score')
+			playerScore.value = player.score
+		let playerScoreTxt = document.getElementById('player-score-txt')
+			playerScoreTxt.innerHTML = player.score
+	}
+    if(who.score >= 121) {
+        endGame()
+    }
+
+}
+
 //hand scoring
 function scoreHand(turn) {
     turn.hand.push(deck[0])
@@ -180,4 +198,17 @@ function playPairs(cards) {
 				break
 		}
 	return points
+}
+
+function scoreLastCard(playedCards) {
+    console.log(playRound.playedCards)
+    if (playRound.playedCards[7] === 'player') {
+        player.score += 1
+        player.playPoints += 1
+        updateScore(player)
+    } else {
+        ai.score += 1
+        ai.playPoints += 1
+        updateScore(ai)
+    }
 }

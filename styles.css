@@ -2,7 +2,6 @@
     border: 1px solid black;
 } */
 
-
 html,
 body {
     padding: 0;
@@ -16,20 +15,28 @@ body {
     flex-wrap: nowrap;
     width: 100%;
     margin: auto;
-
-
 }
 
-label, h4 {
+.dealer {
+    font-size: 16px;
+}
+
+label {
     font-size: xx-large;
-    height: 50px;
-    width: 10%;
-    text-align: center;
-    margin: 20px;
+    height: 60px;
+    width: 6%;
+
 }
+
+h3 {
+    font-size: xx-large;
+    height: 60px;
+
+}
+
 progress {
     height: 50px;
-    width: 85%;
+    width: 90%;
     margin: 10px
     ;
 }
@@ -60,10 +67,11 @@ progress {
 .playerCards, .playRow, .playArea {
     display: flex;
     flex-direction: row;
-    padding: 10px;
-    justify-content: center;
+    padding: 15px;
+    margin: 5px;
+    justify-content: space-around;
     height: 150px;
-
+    align-items: center;
 }
 
 .playRow {
@@ -81,3 +89,29 @@ progress {
 
 }
 
+.infoDiv {
+    border: 5px outset slategray;
+    background-color: whitesmoke;
+    height: 90%;
+    width: 200px;
+}
+
+#infoBtn {
+    width: 98%;
+    margin: 1%;
+    background-color: blue;
+    color: white;
+    font-weight: bold ;
+}
+#infoBtn:hover{
+    width: 98%;
+    margin: 1%;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    opacity: 75%;
+}
+
+p {
+    text-align: center;
+}
