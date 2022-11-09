@@ -15,6 +15,59 @@
 
 </head>
 <body>
+    <!-- Using offcanvas Bootstrap Example to create section to show rules and scoring -->
+    <div class="offcanvasBar">
+      <button class="btn btn-primary m-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#rulesAndHints" aria-controls="rulesAndHints">
+        Rules And Hints
+    </button>    
+    </div>
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="rulesAndHints" aria-labelledby="rulesAndHintsLabel">
+        <div class="offcanvas-header">
+          <h3 class="offcanvas-title" id="rulesAndHintsLabel">Rules And Hints</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div>
+            <a href="https://bicyclecards.com/how-to-play/cribbage/" target="_blank">Rule of the game</a>
+            <p><small>from bicyclecards.com </small></p>
+          </div>
+          <div>
+            <h4>Play Scoring</h4>
+            <ul>
+                <li>Count = 15: 2 Points</li>
+                <li>Run of 3 or more: Points are eqaul to run length</li>
+                <li>Pairs: 2pts</li>
+                <li>3 of a Kind: 6pts</li>
+                <li>4 of a Kind: 6pts</li>
+                <li>Count = 31: 2pts</li>
+                <li>Go: 1pt</li>
+                <li>Right Jack: 1pt to Dealer</li>
+            </ul>
+            <h4>Hand Scoring</h4>
+            <ul>
+                <li>Cards that sum to 15: 2 Points</li>
+                <li>Run of 3 or more: Points are eqaul to run length</li>
+                <li>Pairs: 2pts EACH</li>
+                <li>Flush: 4 or 5pts</li>
+                <li>Right Jack: 1pts</li>
+            </ul>
+            <h4>Useful Hints</h4>
+                <ul>
+                <li>When scoring your hand you can use the stater card and ALL combinations of cards</li>
+                <li>Runs do not have to be played in order</li>
+                <li>The Right Jack is the Jack of the sit of the starter card</li>
+                <li> The nondealer leads in each phase</li>
+                <li>The Dealer gets to score the crib, and scores the crib last</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    <!-- OFFCAVAS ABOVE -->
     <div class="scoreBoard">
         <progress  id="aiScore" value="0" max="121"></progress>
         <label for="aiScore" class="scoreBar">

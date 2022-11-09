@@ -112,6 +112,26 @@ progress {
     opacity: 75%;
 }
 
-p {
+.infoP {
     text-align: center;
+}
+
+a {
+    font-size: larger;
+
+}
+
+.offcanvasBar {
+    background-color: lightgrey;
+}
+
+li {
+    font-size: 13px;
+    margin: 2px;
+}
+
+small {
+    font-size: 9px;
+    margin: 0;
+    text-decoration: none;
 }
