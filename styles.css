@@ -97,7 +97,7 @@ progress {
     justify-content: space-evenly;
 }
 
-.info-div {
+#info-div {
     border: 5px outset slategray;
     background-color: whitesmoke;
     height: 90%;

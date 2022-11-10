@@ -23,7 +23,6 @@ function scoreHand(turn, crib) {
             turn.hand.push(deck[i])
         }
     }
-    console.log(turn.hand)
     let pts = 0
     pts += score15(turn.hand)
     pts += scorePairs(turn.hand)
@@ -32,7 +31,6 @@ function scoreHand(turn, crib) {
     //pts += rightJack(turn.hand)
     turn.score += pts
     turn.handPoints += pts
-    console.log(pts)
     txt = document.getElementById('info1')
     if (turn === player) {
         txt.innerHTML = `Player scores ${pts}`
@@ -48,7 +46,6 @@ function scoreCrib(turn) {
             crib.push(deck[i])
         }
     }
-    console.log(crib)
     let pts = 0
     pts += score15(crib)
     pts += scorePairs(crib)
@@ -57,7 +54,6 @@ function scoreCrib(turn) {
     //pts += rightJack(crib)
     turn.score += pts
     turn.handPoints += pts
-    console.log(pts)
     txt = document.getElementById('info1')
     if (turn === player) {
         txt.innerHTML = `Player scores ${pts}`
@@ -93,7 +89,6 @@ function score15(hand) {
         }
     }
     points = 2 * count
-    console.log('15', points)
     return points
 }
 
@@ -107,7 +102,6 @@ function scorePairs(hand) {
         }
     }
     points = 2 * count
-    console.log('Pairs', points)
     return points
 }
 
@@ -137,14 +131,12 @@ function scoreRun(hand) {
         };
       };
     };
-    console.log('runs', points)
     return count
   }
 
 //rework maybe
 function scoreFlush(hand, crib) {
     let count = 0
-    console.log(hand)
     let flushSuit = hand[0].suits
     for (let i = 0; i < 4; i++) {
         if (hand[i].suits === flushSuit) {
@@ -156,7 +148,6 @@ function scoreFlush(hand, crib) {
     if (crib === true && count < 5) {
         count = 0
     }
-    console.log('flush', count)
     return count
 }
 
@@ -201,7 +192,6 @@ function scorePlay(turn) {
         ai.go === true
         txt.innerHTML = '31 for 2'
     }
-   // console.log('pts', pts)
     turn.score += pts
     turn.playPoints += pts
     updateScore(turn)
@@ -239,7 +229,6 @@ function playPairs(cards) {
 }
 
 function scoreLastCard(playedCards) {
-   console.log('last card')
     if (player.turn === true) {
         player.score += 1
         player.playPoints += 1

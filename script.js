@@ -17,8 +17,6 @@ let deck = getDeck()
 
 initiate()
 
-//startGame() //eventlistener function?
-//intiateRound()
 
 function getDeck() {
 	let deck =[]
@@ -172,12 +170,30 @@ function setDealer() {
 			btns.infoBtn.innerHTML = 'DEAL'
 			let txt = document.querySelector('#info1')
 			txt.innerHTML = 'Low card deals first'
-			startGame()
+			startRound()
 		}),options)
 };
 
+function changeDealer() {
+	let aiDealer = document.getElementById('ai-dealer')
+	let playerDealer = document.getElementById('player-dealer')
+	if (player.dealer === true) {
+		player.dealer = false
+		ai.dealer = true
+		playerDealer.innerHTML = ''
+		aiDealer.innerHTML = '&#127315'
+	
+	} else {
+		player.dealer = true
+		ai.dealer = false
+		playerDealer.innerHTML = '&#127315'
+		aiDealer.innerHTML = ''
+	}
+
+}
+
 //need to add loop 
-function startGame () {
+function startRound () {
 	//  while (ai.score < 121 || player.score < 121) {
 		let options = {once: true}
 		deck = getDeck()
@@ -188,6 +204,20 @@ function startGame () {
 	
 	// }
 };
+
+function newRound() {
+	let infoDiv = document.getElementById('info-div')
+	btns.infoBtn = document.createElement('button')
+	btns.infoBtn.id = 'info-btn'
+	btns.infoBtn.innerHTML = 'DEAL'
+	let txt = document.createElement('p')
+		txt.className = 'info-p'
+		txt.id = 'info1'
+	infoDiv.append(btns.infoBtn, txt)
+	playRound = {numPlayedCards: 0, setCards: [], count: 0, goPts: 1, playedCards:[]}
+	changeDealer()
+	startRound()
+}
 
 // deals cards - 6 cards each - pass in the play deck
 function dealCards(deck) {
@@ -228,6 +258,13 @@ function displayCrib() {
 	for (i = 0; i < crib.length; i++) {
 		btns.playArea[i+2].innerHTML = crib[i].hexcode
 		btns.playArea[i+2].style.color = crib[i].color
+	}
+	if (player.dealer === true) {
+		const cribDiv = document.getElementById('player-crib')
+		cribDiv.innerHTML = ''
+	} else {
+		const cribDiv = document.getElementById('ai-crib')
+		cribDiv.innerHTML = ''	
 	}
 }
 
@@ -347,58 +384,49 @@ function playPhase() {
 	nonDealer.go = false
 	dealer.go = false
 	nonDealer.turn = true
-	for (let i = 0; i < btns.playerCards.length; i++) {   ////dfbjsdoifjbspodifjbposidjbpoisgdjbosdgbpoisdgfpoisdfgubpsoigubsogub-
+	for (let i = 0; i < btns.playerCards.length; i++) {
 		btns.playerCards[i].addEventListener('click', function () {
-			// console.log(i)			//consolelog
 			playCard(player, i)
 		})
 	};
 	if(ai.turn === true) {
 		playCard(ai)
-		//} else {playCard(ai)};
 	};
 };
 
-function playCard(turn, i) {	
-	// if (playRound.numPlayedCards === 8) {	
-	// 	btns.infoBtn.innerHTML = 'CONTINUE'
-	// 	console.log('played Cards', playRound.playedCards)
-	// 	scoreLastCard()
-	// 	let options = {once: true}
-	// 	btns.infoBtn.addEventListener('click', function() {
-	// 		console.log('click infoBTN')		//consolelog
-	// 		returnCards()
-	// 	}, options)
-	// };
-	if (ai.go === true && player.go === true) {
+function playCard(turn, i) {
+	checkGo(player)
+	checkGo(ai)	
+	if (ai.go === true && player.go === true) {  ///this needs to be moved
 		resetPlay(turn)
-	};		
-	let canPlay = checkGo(turn)
-	if  (canPlay === false) {
-		turn.go = true
+	} else if (turn.go === true) {
+		console.log(turn.go)
+		changeTurn()
 	}
-	if (player.turn === true){
+	if (player.turn === true) {
 		playerTurn(i)
 	} else {
-		 aiTurn()
+		aiTurn()
 	};
+	if(ai.hand.length === 0) {
+		changeTurn()
+	}
 };
 
 //check to see if there is a vaild play
 function checkGo(turn) {
 	canPlay = false
 	for (let i = 0; i < turn.hand.length; i++) {
-		 if (turn.hand[i].gameValue + playRound.count < 32 && turn.hand.loc !== 'played') {
+		if (turn.hand[i].gameValue + playRound.count < 32 && turn.hand.loc !== 'played') {
 		 	canPlay = true
-		} else {
+		}
+		if(canPlay !== true) {
 			turn.go = true
 		}
 	};
-	return canPlay
 };
 
 function playerTurn(i) {
-	//player.turnCount += 1
 	if (player.go === false) {
 		playerPlay(i)
 		//let options = {once: true}
@@ -415,10 +443,8 @@ function playerTurn(i) {
 };
 
 function playerPlay(i) { 
-		//console.log('click')				//consolelog
 	if(player.hand[i].gameValue + playRound.count < 32) {
 		playRound.count += player.hand[i].gameValue
-		//btns.playerCards[i].style.visibility = 'hidden'
 		btns.playerCards[i].remove()
 		player.hand[i].loc = 'played'  			//remove later --debug use only
 		playRound.setCards.push(player.hand[i])
@@ -427,23 +453,18 @@ function playerPlay(i) {
 		displayCard(player.hand[i])
 		playRound.numPlayedCards += 1
 		//player.hand.splice(i,1)
-		//console.log('hand', player.hand) 		 //consolelog
-		//console.log(btns.playerCards)				//consolelog
 		scorePlay(player)
 		if (playRound.numPlayedCards === 8) {	
 			btns.infoBtn.innerHTML = 'CONTINUE'
-			console.log('played Cards', playRound.playedCards)
 			scoreLastCard()
 			let options = {once: true}
 			btns.infoBtn.addEventListener('click', function() {
-				console.log('click infoBTN')		//consolelog
 				returnCards()
 		}, options)
-		} else {
-			changeTurn()
-			playCard(ai)
 		}
-	} //else {playerTurn()};
+		changeTurn()
+		playCard(ai)
+	} else {console.log('Invalid')};
 
 
 };
@@ -462,16 +483,13 @@ function aiTurn() {
 		btns.infoBtn.innerHTML = playRound.count
 		displayCard(ai.hand[card])
 		ai.hand.splice(card,1)
-		//console.log('ai.hand', ai.hand)			//consolelog
 		playRound.numPlayedCards += 1
 		scorePlay(ai)
 		if (playRound.numPlayedCards === 8) {	
 			btns.infoBtn.innerHTML = 'CONTINUE'
-			console.log('played Cards', playRound.playedCards)
 			scoreLastCard()
 			let options = {once: true}
 			btns.infoBtn.addEventListener('click', function() {
-				console.log('click infoBTN')		//consolelog
 				returnCards()
 		}, options)
 		} else {
@@ -510,7 +528,6 @@ function returnCards() {
 		txt.innerHTML = ''
 	let playerReturn = document.getElementById('player-hand')
 	ai.hand = ai.playedCards
-	console.log(ai.hand)
 	for (let i = 0; i < 4; i++) {
 		let playerReturnCard =document.createElement('button');
 			playerReturnCard.className =  'player-card card'
@@ -549,18 +566,47 @@ function countHands() {
 				break
 			case 2:
 				displayCrib()
-				scoreCrib(dealer, true)
+				scoreCrib(dealer)
 				console.log('crib')
 				btns.infoBtn.innerHTML = 'START NEW ROUND'
+				clicks = 10
 				endRound()
 		}
 		clicks += 1
 	})
-	
-	//scoreHand(dealer)
-	//scoreCrib(dealer)
 };
 
+function endRound() {
+	//put the player cards div back to default
+	let options = {once: true}
+	btns.infoBtn.addEventListener('click', function() {
+		for (let i = 4; i < 6; i++) {
+			//put the player cards div back to default
+			let playerReturn = document.getElementById('player-hand')
+			let playerReturnCard =document.createElement('button');
+				playerReturnCard.className = 'player-card card'
+				playerReturnCard.id = `player-card${i}`
+				playerReturn.append(playerReturnCard)
+		}
+		btns.playerCards = document.querySelectorAll('.player-card')
+		for (let i = 0; i < 6; i++) {
+			btns.aiCards[i].style.color = 'blue'
+			btns.aiCards[i].innerHTML = ''
+			btns.aiCards[i].style.visibility = 'visible'
+			btns.playerCards[i].innerHTML = ''
+			
+		}
+		for (let i = 0; i < btns.playArea.length; i++) {
+			btns.playArea[i].innerHTML = ''
+		}
+		btns.deckBtn.innerHTML = '&#x1F0A0'
+		btns.deckBtn.style.color = 'blue'
+		let infoBox = document.getElementById('info1')
+		infoBox.remove()
+		btns.infoBtn.remove()
+		newRound()
+	}, options)
+}
 // let options = {once: true}
 
 	//count cards

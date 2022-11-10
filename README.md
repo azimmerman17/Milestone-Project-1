@@ -2,8 +2,12 @@
 NC State SD Bootcamp Milestone Project 1
 Cribbage Browser Game
 
+Use button clicks to work your way through the game.  
+  - When you need to select cards click on the cards
+  All other clicks are on the blue button or discribed by an on screen instruction
 
-Rules of Cribbage from https://bicyclecards.com/how-to-play/cribbage/
+Rules of Cribbage 
+from https://bicyclecards.com/how-to-play/cribbage/
 
 # 0f Players: 2
 
@@ -68,4 +72,9 @@ ENDING THE GAME - The game ends when either player reaches 121 points.   If 121 
 THE SKUNK: If the losing player fails to score 91 points, they are considered skunked  and the game counts as a double game
 
 
+Bugs: 
+
+When discarding for the crib if you have 3 cards selected at any time, the game will not continue
+Game has issues changing turns when it comes to resetting the count and having players take another turn
+Scoring for Flushes, Runs, and Right Jack 
 
