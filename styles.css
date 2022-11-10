@@ -8,7 +8,7 @@ body {
     margin: 0;
 }
 
-.ScoreBoard {
+.Score-board {
     display: flex;
     height: 100px;
     flex-direction: row;
@@ -46,7 +46,7 @@ progress {
 }
 
 
-.cardArea {
+.card-area {
     width: 95%;
     margin: auto;
     height: 500px;
@@ -58,30 +58,6 @@ progress {
     height: 100px;
     width: 75px;
     margin: 0 px;
-}
-
-#deck {
-    visibility: visible
-}
-
-.playerCards, .playRow, .playArea {
-    display: flex;
-    flex-direction: row;
-    padding: 15px;
-    margin: 5px;
-    justify-content: space-around;
-    height: 150px;
-    align-items: center;
-}
-
-.playRow {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    justify-content: space-evenly;
-}
-
-.cardUnicode {
     font-size: 100px;
     color: blue;
     background-color: #fff;
@@ -89,21 +65,53 @@ progress {
 
 }
 
-.infoDiv {
+#deck {
+    visibility: visible
+}
+
+.player-cards, .play-row {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    margin: 5px;
+    height: 150px;
+    align-items: center;
+    min-width: 480px
+}
+
+.play-area, .player-row {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    margin: 5px;
+    justify-content: space-around;
+    height: 150px;
+    align-items: center;
+    min-width: 480px
+}
+
+.play-row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-evenly;
+}
+
+.info-div {
     border: 5px outset slategray;
     background-color: whitesmoke;
     height: 90%;
     width: 200px;
 }
 
-#infoBtn {
+#info-btn {
     width: 98%;
     margin: 1%;
     background-color: blue;
     color: white;
     font-weight: bold ;
 }
-#infoBtn:hover{
+#info-btn:hover{
     width: 98%;
     margin: 1%;
     background-color: blue;
@@ -112,7 +120,7 @@ progress {
     opacity: 75%;
 }
 
-.infoP {
+.info-p {
     text-align: center;
 }
 
@@ -121,7 +129,7 @@ a {
 
 }
 
-.offcanvasBar {
+.offcanvas-bar {
     background-color: lightgrey;
 }
 
@@ -135,3 +143,4 @@ small {
     margin: 0;
     text-decoration: none;
 }
+

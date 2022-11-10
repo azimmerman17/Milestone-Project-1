@@ -16,7 +16,7 @@
 </head>
 <body>
     <!-- Using offcanvas Bootstrap Example to create section to show rules and scoring -->
-    <div class="offcanvasBar">
+    <div class="offcanvas-bar">
       <button class="btn btn-primary m-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#rulesAndHints" aria-controls="rulesAndHints">
         Rules And Hints
     </button>    
@@ -34,28 +34,28 @@
           <div>
             <h4>Play Scoring</h4>
             <ul>
-                <li>Count = 15: 2 Points</li>
+                <li>Count = 15: 2 pts</li>
                 <li>Run of 3 or more: Points are eqaul to run length</li>
-                <li>Pairs: 2pts</li>
-                <li>3 of a Kind: 6pts</li>
-                <li>4 of a Kind: 6pts</li>
-                <li>Count = 31: 2pts</li>
+                <li>Pairs: 2 pts</li>
+                <li>3 of a Kind: 6 pts</li>
+                <li>4 of a Kind: 12 pts</li>
+                <li>Count = 31: 2 pts</li>
                 <li>Go: 1pt</li>
-                <li>Right Jack: 1pt to Dealer</li>
+                <li>Right Jack: 1 pt to Dealer</li>
             </ul>
             <h4>Hand Scoring</h4>
             <ul>
-                <li>Cards that sum to 15: 2 Points</li>
+                <li>Cards that sum to 15: 2 pts</li>
                 <li>Run of 3 or more: Points are eqaul to run length</li>
-                <li>Pairs: 2pts EACH</li>
-                <li>Flush: 4 or 5pts</li>
-                <li>Right Jack: 1pts</li>
+                <li>Pairs: 2 pts EACH</li>
+                <li>Flush: 4 or 5 pts</li>
+                <li>Right Jack: 1 pts</li>
             </ul>
             <h4>Useful Hints</h4>
                 <ul>
                 <li>When scoring your hand you can use the stater card and ALL combinations of cards</li>
                 <li>Runs do not have to be played in order</li>
-                <li>The Right Jack is the Jack of the sit of the starter card</li>
+                <li>The Right Jack is the Jack of the suit of the starter card</li>
                 <li> The nondealer leads in each phase</li>
                 <li>The Dealer gets to score the crib, and scores the crib last</li>
                 </ul>
@@ -68,76 +68,74 @@
 
 
     <!-- OFFCAVAS ABOVE -->
-    <div class="scoreBoard">
-        <progress  id="aiScore" value="0" max="121"></progress>
-        <label for="aiScore" class="scoreBar">
-            <h3 class="score" id="aiScoreTxt">0</h3>
+    <div class="score-board">
+        <progress  id="ai-score" value="0" max="121"></progress>
+        <label for="ai-score" class="score-bar">
+            <h3 class="score" id="ai-score-txt">0</h3>
         </label>
     </div>
-    <div class="cardArea">
-                <!-- player 2 cards --> 
-        <div class="playerCards">  
-            <div class="playerIcon">
+    <div class="card-area">
+        <div class="player-row">  
+            <div class="player-icon">
                 <i class="bi bi-laptop-fill"  style="font-size: 60px"></i>
-                <i class="dealer" id="aiDealer"></i>
+                <i class="dealer" id="ai-dealer"></i>
             </div>
-            <div class="playerCards">
-                <div class="ai-card card cardUnicode" id="aiCard0"></div>
-                <div class="ai-card card cardUnicode" id="aiCard1"></div>
-                <div class="ai-card card cardUnicode" id="aiCard2"></div>
-                <div class="ai-card card cardUnicode" id="aiCard3"></div>
-                <div class="ai-card card cardUnicode" id="aiCard4"></div>
-                <div class="ai-card card cardUnicode" id="aiCard5"></div>
+            <div class="player-cards">
+                <div class="ai-card card" id="ai-card0"></div>
+                <div class="ai-card card" id="ai-card1"></div>
+                <div class="ai-card card" id="ai-card2"></div>
+                <div class="ai-card card" id="ai-card3"></div>
+                <div class="ai-card card" id="ai-card4"></div>
+                <div class="ai-card card" id="ai-card5"></div>
             </div>
             <div>
-                <div class="card cardUnicode" id="aiCrib"></div>
+                <div class="card " id="ai-crib"></div>
                 
             </div>
         </div>
-                <!-- deck  -  count area    info area -->
-        <div class="playRow">
+        <div class="play-row">
             <div>
-                <button class="card cardUnicode" id="deck">&#x1F0A0</button>
+                <button class="card " id="deck">&#x1F0A0</button>
             </div>
-            <div class="playArea">
-                <div class="card cardUnicode play-Card" id="play-Card0"></div>
-                <div class="card cardUnicode play-Card" id="play-Card1"></div>
-                <div class="card cardUnicode play-Card" id="play-Card2"></div>
-                <div class="card cardUnicode play-Card" id="play-Card3"></div>
-                <div class="card cardUnicode play-Card" id="play-Card4"></div>
-                <div class="card cardUnicode play-Card" id="play-Card5"></div>
-                <div class="card cardUnicode play-Card" id="play-Card6"></div>
-                <div class="card cardUnicode play-Card" id="play-Card7"></div>
+            <div class="play-area">
+                <div class="card play-card" id="play-card0"></div>
+                <div class="card play-card" id="play-card1"></div>
+                <div class="card play-card" id="play-card2"></div>
+                <div class="card play-card" id="play-card3"></div>
+                <div class="card play-card" id="play-card4"></div>
+                <div class="card play-card" id="play-card5"></div>
+                <div class="card play-card" id="play-card6"></div>
+                <div class="card play-card" id="play-card7"></div>
 
             </div>
-            <div class="infoDiv">
-                <button id="infoBtn">NEW GAME</button>
-                <p class="infoP" id="info1"></p>
-                <p class="infoP" id="info2"></p>
-                <p class="infoP" id="info3"></p>
+            <div class="info-div">
+                <button id="info-btn">NEW GAME</button>
+                <p class="info-p" id="info1"></p>
+                <p class="info-p" id="info2"></p>
+                <p class="info-p" id="info3"></p>
             </div>
         </div>
-        <div class="playerCards">
-            <div class="playerIcon">
+        <div class="player-row">
+            <div class="player-icon">
                 <i class="bi bi-person-fill icon"style="font-size: 60px"></i>
-                <i class="dealer" id="playerDealer"></i>
+                <i class="dealer" id="player-dealer"></i>
             </div>
-            <div class="playerCards">
-                <button class="player-card card cardUnicode" id="playerCard0"></button>
-                <button class="player-card card cardUnicode" id="playerCard1"></button>
-                <button class="player-card card cardUnicode" id="playerCard2"></button>
-                <button class="player-card card cardUnicode" id="playerCard3"></button>
-                <button class="player-card card cardUnicode" id="playerCard4"></button>
-                <button class="player-card card cardUnicode" id="playerCard5"></button>
+            <div class="player-cards" id="player-hand">
+                <button class="player-card card" id="player-card0"></button>
+                <button class="player-card card" id="player-card1"></button>
+                <button class="player-card card" id="player-card2"></button>
+                <button class="player-card card" id="player-card3"></button>
+                <button class="player-card card" id="player-card4"></button>
+                <button class="player-card card" id="player-card5"></button>
             </div>
             <div>
-                <div class="card cardUnicode" id="playerCrib"></div>
+                <div class="card " id="player-crib"></div>
                 
             </div>
         </div>
     </div>
     </div>
-    <div class="scoreBoard">
+    <div class="score-board">
         <progress id="player-score" value="0" max="121"></progress>
         <label for="player-score">
             <h3 class="score"id="player-score-txt">0</h3>

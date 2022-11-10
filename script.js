@@ -8,9 +8,9 @@ const btns = {
 	aiCards: document.querySelectorAll('.ai-card'),
 	playerCards: document.querySelectorAll('.player-card'),
 	deckBtn: document.querySelector('#deck'),
-	infoBtn: document.querySelector('#infoBtn'),
-	playArea: document.querySelectorAll('.play-Card')
-}
+	infoBtn: document.getElementById('info-btn'),
+	playArea: document.querySelectorAll('.play-card')
+};
 
 //builds an unshuffled deck for the game !!USE LISTENER TO SHUFFLE DECK WHEN USER CLICKS START GAME!!
 let deck = getDeck()
@@ -78,10 +78,10 @@ function getDeck() {
                     card.hexcode = '&#x1F0B' + card.hex
 					card.color = 'red'
             
-            }
-        }
+            };
+        };
 	};
-	return deck;
+	return deck
 };
 
 function getDealer() {
@@ -90,7 +90,7 @@ function getDealer() {
 		dealer = player
 	} else {dealer = ai}
 	return dealer
-}
+};
 
 function getNonDealer() {
 	let nonDealer = null
@@ -98,7 +98,7 @@ function getNonDealer() {
 		nonDealer = player
 	} else {nonDealer = ai}
 	return nonDealer
-}
+};
 
 //shuffles the deck when needed -always need to calls a deck varible
 function shuffle(deck) {
@@ -121,7 +121,7 @@ function cutDeck() {
 
     let newDeck = deckCut.concat(tempDeck)
     return newDeck
-}
+};
 
 //start game -while loop to END GAME
 function initiate() {
@@ -132,10 +132,10 @@ function initiate() {
 		btns.infoBtn.style.visibility = 'hidden'
 		setDealer()
 	}), options)	
-}
+};
 
 //cut cards to see who deals first
-//p1 cuts  //p2 cuts  //low card deals --same card redo
+//p1 cuts  //p2 cuts  //low card deals --same card redo (automated)
 function setDealer() {
 	let dealer = 'null'
 	let nonDealer ='null'
@@ -144,28 +144,28 @@ function setDealer() {
 		let cut = Math.floor(Math.random() * 52) 
 		while (cut <10 || cut > 48) {
 			cut = Math.floor(Math.random() * 52)
-		}
+		};
 		let playerCard = deck[cut]
 		let aiCard = deck[Math.floor(Math.random() * cut)]
 		
 		if (playerCard.rank < aiCard.rank) {
 		player.dealer = true
-		let dealerTxt = document.getElementById('playerDealer')
+		let dealerTxt = document.getElementById('player-dealer')
 				dealerTxt.innerHTML = '&#127315'
 		} else if (playerCard.rank > aiCard.rank) {
 			ai.dealer = true
 			dealer = ai
 			nonDealer =player
-			let dealerTxt = document.getElementById('aiDealer')
+			let dealerTxt = document.getElementById('ai-dealer')
 				dealerTxt.innerHTML = '&#127315'
 		} else {
 			shuffle(deck)
 			setDealer()
-		} 
-		let aiCut = document.getElementById('aiCard0')
+		};
+		let aiCut = document.getElementById('ai-card0')
 			aiCut.innerHTML = aiCard.hexcode
 			aiCut.style.color = aiCard.color
-		let playerCut = document.getElementById('playerCard0')
+		let playerCut = document.getElementById('player-card0')
 			playerCut.innerHTML = playerCard.hexcode
 			playerCut.style.color = playerCard.color
 			btns.infoBtn.style.visibility = 'visible'
@@ -174,7 +174,7 @@ function setDealer() {
 			txt.innerHTML = 'Low card deals first'
 			startGame()
 		}),options)
-}
+};
 
 //need to add loop 
 function startGame () {
@@ -187,7 +187,7 @@ function startGame () {
 		}), options)
 	
 	// }
-}
+};
 
 // deals cards - 6 cards each - pass in the play deck
 function dealCards(deck) {
@@ -198,11 +198,11 @@ function dealCards(deck) {
 		deck.shift()
 		dealer.hand.push(deck[0])
 		deck.shift()
-	}
+	};
 	displayHands(player.hand)
 	displayHands(ai.hand)
 	buildCrib(deck)
-}
+};
 
 function displayHands(hand) {
 	for(let i = 0; i <hand.length; i++) {
@@ -214,14 +214,21 @@ function displayHands(hand) {
 			hand[i].loc = 'player'
 			btns.playerCards[i].innerHTML = hand[i].hexcode
 			btns.playerCards[i].style.color = hand[i].color
-		}
-	}
-}
+		};
+	};
+};
 
 function displayCard(card) {
-	let place = document.getElementById(`play-Card${playRound.numPlayedCards}`)
+	let place = document.getElementById(`play-card${playRound.numPlayedCards}`)
 		place.innerHTML = card.hexcode
 		place.style.color = card.color
+};
+
+function displayCrib() {
+	for (i = 0; i < crib.length; i++) {
+		btns.playArea[i+2].innerHTML = crib[i].hexcode
+		btns.playArea[i+2].style.color = crib[i].color
+	}
 }
 
 function buildCrib(deck) { 
@@ -243,7 +250,7 @@ function buildCrib(deck) {
 			}
 			}))
 		
-	}
+	};
 		btns.infoBtn.addEventListener('click', (() => {
 			if (selectedCount === 2) {
 			confirmCrib()
@@ -251,34 +258,34 @@ function buildCrib(deck) {
 			setStarterCard(deck)
 			}
 		}))	
-	//}	
-}
+};
+
 function confirmCrib() {
 	let dealer = getDealer()	
 	playerCribDiscard()
 	aiCribDiscard()
 	if (dealer === player) {
-		const cribDiv = document.getElementById('playerCrib')
+		const cribDiv = document.getElementById('player-crib')
 		cribDiv.innerHTML = '&#x1F0A0'
 	} else {
-		const cribDiv = document.getElementById('aiCrib')
+		const cribDiv = document.getElementById('ai-crib')
 		cribDiv.innerHTML = '&#x1F0A0'	
-	}			
+	};		
 	
-}
+};
 
 function playerCribDiscard() {
 	for (let i = 0; i < player.hand.length; i++) {
 		if (player.hand[i].loc === 'crib') {
 			crib.push(player.hand[i])	
 			
-		} 
-	}
+		};
+	};
 	player.hand = buildNewHand(player.hand)
 	displayHands(player.hand)
-	btns.playerCards[4].style.visibility = 'hidden'
-	btns.playerCards[5].style.visibility = 'hidden'
-}
+	btns.playerCards[4].remove()
+	btns.playerCards[5].remove()
+};
 
 function aiCribDiscard() {
 	if (crib.length < 4) {
@@ -288,15 +295,15 @@ function aiCribDiscard() {
 		let discard1 = Math.floor(Math.random() * 6)
 		while (discard === discard1) {
 			discard1 = Math.floor(Math.random() * 6)	
-		}
+		};
 		crib.push(ai.hand[discard1])
 		ai.hand[discard1].loc = 'crib'
 		ai.hand = buildNewHand(ai.hand)
 		displayHands(ai.hand)
 		btns.aiCards[5].style.visibility = 'hidden'
 		btns.aiCards[4].style.visibility = 'hidden'
-	}
-}
+	};
+};
 
 function buildNewHand(hand) {
 	newHand = []
@@ -304,9 +311,9 @@ function buildNewHand(hand) {
 		if (hand[i].loc != 'crib') {
 			newHand.push(hand[i])
 		}
-	}
+	};
 	return newHand
-}
+};
 
 function setStarterCard(deck) {
 	btns.infoBtn.innerHTML = 'CUT DECK'
@@ -326,69 +333,75 @@ function setStarterCard(deck) {
 				let txt = document.querySelector('#info1')
 				txt.innerHTML = `His heels for 1`
 				updateScore(dealer)
-			}	
+			};	
 			playPhase()
 	}), options)
 	
-}
+};
 
 function playPhase() {
-	console.log('playPhase')
 	btns.infoBtn.innerHTML = playRound.count
 	let dealer = getDealer()
 	let nonDealer = getNonDealer()
+	ai.playedCards = []
 	nonDealer.go = false
 	dealer.go = false
 	nonDealer.turn = true
 	for (let i = 0; i < btns.playerCards.length; i++) {   ////dfbjsdoifjbspodifjbposidjbpoisgdjbosdgbpoisdgfpoisdfgubpsoigubsogub-
 		btns.playerCards[i].addEventListener('click', function () {
-			console.log(i)
-			playerPlay(i)
+			// console.log(i)			//consolelog
+			playCard(player, i)
 		})
-	}
-	//while (playRound.playedCards < 8) {
-		if(player.turn === true) {
-			playCard(player)
-		} else {playCard(ai)}
-	//}
-}
+	};
+	if(ai.turn === true) {
+		playCard(ai)
+		//} else {playCard(ai)};
+	};
+};
 
-function playCard(turn) {	
-	if (playRound.numPlayedCards === 8) {
-		scoreLastCard()
-	 	countHands()
-	 }
+function playCard(turn, i) {	
+	// if (playRound.numPlayedCards === 8) {	
+	// 	btns.infoBtn.innerHTML = 'CONTINUE'
+	// 	console.log('played Cards', playRound.playedCards)
+	// 	scoreLastCard()
+	// 	let options = {once: true}
+	// 	btns.infoBtn.addEventListener('click', function() {
+	// 		console.log('click infoBTN')		//consolelog
+	// 		returnCards()
+	// 	}, options)
+	// };
 	if (ai.go === true && player.go === true) {
 		resetPlay(turn)
-	}		
+	};		
 	let canPlay = checkGo(turn)
 	if  (canPlay === false) {
 		turn.go = true
 	}
 	if (player.turn === true){
-		playerTurn()
+		playerTurn(i)
 	} else {
 		 aiTurn()
-	}
-}
+	};
+};
 
 //check to see if there is a vaild play
 function checkGo(turn) {
 	canPlay = false
 	for (let i = 0; i < turn.hand.length; i++) {
-		 if (turn.hand[i].gameValue + playRound.count <= 31 && turn.hand.loc !== 'played') {
+		 if (turn.hand[i].gameValue + playRound.count < 32 && turn.hand.loc !== 'played') {
 		 	canPlay = true
 		} else {
 			turn.go = true
 		}
-	}
+	};
 	return canPlay
-}
+};
 
-function playerTurn() {
+function playerTurn(i) {
 	//player.turnCount += 1
 	if (player.go === false) {
-		let options = {once: true}
+		playerPlay(i)
+		//let options = {once: true}
 		// for (let i = 0; i < btns.playerCards.length; i++) {
 		// 	btns.playerCards[i].addEventListener('click', function () {
 		// 		playerPlay(i)
@@ -398,58 +411,80 @@ function playerTurn() {
 		scoreGo(ai)
 		changeTurn()
 		playCard(ai)
-	
-	}
-}
+	};
+};
 
 function playerPlay(i) { 
-		console.log('click')
-	if(player.hand[i].gameValue + playRound.count <= 31) {
+		//console.log('click')				//consolelog
+	if(player.hand[i].gameValue + playRound.count < 32) {
 		playRound.count += player.hand[i].gameValue
 		//btns.playerCards[i].style.visibility = 'hidden'
 		btns.playerCards[i].remove()
-		//player.hand[i].loc = 'played'
-		
+		player.hand[i].loc = 'played'  			//remove later --debug use only
 		playRound.setCards.push(player.hand[i])
 		playRound.playedCards.push(player.hand[i])
 		btns.infoBtn.innerHTML = playRound.count
 		displayCard(player.hand[i])
 		playRound.numPlayedCards += 1
-
 		//player.hand.splice(i,1)
-		console.log('hand', player.hand)
-		console.log(btns.playerCards)
-		changeTurn()
-		playCard(ai)
-	}
-	else {playerTurn()}
+		//console.log('hand', player.hand) 		 //consolelog
+		//console.log(btns.playerCards)				//consolelog
+		scorePlay(player)
+		if (playRound.numPlayedCards === 8) {	
+			btns.infoBtn.innerHTML = 'CONTINUE'
+			console.log('played Cards', playRound.playedCards)
+			scoreLastCard()
+			let options = {once: true}
+			btns.infoBtn.addEventListener('click', function() {
+				console.log('click infoBTN')		//consolelog
+				returnCards()
+		}, options)
+		} else {
+			changeTurn()
+			playCard(ai)
+		}
+	} //else {playerTurn()};
 
 
-}
+};
 
 function aiTurn() {
-	console.log('aiTurn')   ///need to remove cards from ai hand to reduce the 
 	if (ai.go === false) {
 		let card = Math.floor(Math.random() * ai.hand.length)
 		while (ai.hand[card].gameValue + playRound.count > 31) {
 			card = Math.floor(Math.random() * ai.hand.length)
 		}
 		playRound.count += ai.hand[card].gameValue
-		btns.aiCards[card].style.visibility = 'hidden'
+		btns.aiCards[ai.hand.length-1].style.visibility = 'hidden'
 		playRound.setCards.push(ai.hand[card])
+		playRound.playedCards.push(ai.hand[card])
+		ai.playedCards.push(ai.hand[card])
 		btns.infoBtn.innerHTML = playRound.count
 		displayCard(ai.hand[card])
 		ai.hand.splice(card,1)
-		console.log(ai.hand)
+		//console.log('ai.hand', ai.hand)			//consolelog
 		playRound.numPlayedCards += 1
-		changeTurn()
-		playCard(player)
-	}	else {
+		scorePlay(ai)
+		if (playRound.numPlayedCards === 8) {	
+			btns.infoBtn.innerHTML = 'CONTINUE'
+			console.log('played Cards', playRound.playedCards)
+			scoreLastCard()
+			let options = {once: true}
+			btns.infoBtn.addEventListener('click', function() {
+				console.log('click infoBTN')		//consolelog
+				returnCards()
+		}, options)
+		} else {
+			changeTurn()
+		}
+
+		//playCard(player)
+	} else {
 		scoreGo(player)
 		changeTurn()
-		playCard(player)
-	}
-}
+		//playCard(player)
+	};
+};
 
 function changeTurn() {
 	if (player.turn === true) {
@@ -458,53 +493,75 @@ function changeTurn() {
 	} else {
 		ai.turn = false
 		player.turn = true
-	}
+	};
 };
 
 function resetPlay(turn) {
 	playRound.count = 0
 	playRound.setCards = []
 	playRound.goPts = 1
-	player.go = false 
+	player.go = false
 	ai.go = false
 	playCard(turn)
-}
+};
+
+function returnCards() {
+	let txt = document.getElementById('info1')
+		txt.innerHTML = ''
+	let playerReturn = document.getElementById('player-hand')
+	ai.hand = ai.playedCards
+	console.log(ai.hand)
+	for (let i = 0; i < 4; i++) {
+		let playerReturnCard =document.createElement('button');
+			playerReturnCard.className =  'player-card card'
+			playerReturnCard.id = `player-card${i}`
+			playerReturnCard.innerHTML = player.hand[i].hexcode
+			playerReturnCard.style.color = player.hand[i].color
+			playerReturn.append(playerReturnCard)
+		btns.aiCards[i].style.visibility = 'visible'
+		btns.aiCards[i].style.color = ai.hand[i].color
+		btns.aiCards[i].innerHTML = ai.hand[i].hexcode
+	};
+	for (let i = 0; i < playRound.playedCards.length;i++) {
+		btns.playArea[i].innerHTML = ''
+	}
+	countHands()
+};
 
 
 
 function countHands() {
-	for (let i = 0; i < btns.playArea.length;i++) {
-		btns.playArea[i].innerHTML = ''
-	}
+	btns.infoBtn.innerHTML = 'SCORE NONDEALER'
 	let dealer = getDealer()
 	let nonDealer = getNonDealer()
-	scoreHand(nonDealer)
-	scoreHand(dealer)
-	scoreCrib(dealer)
-	 
-}
-
-
-
-// select card
-//check if vaild card
-//score
-//change turns
-
-
+	let clicks = 0
+	btns.infoBtn.addEventListener('click', function() {
+		switch (clicks) {
+			case 0: 
+				console.log('nondealer')
+				scoreHand(nonDealer)
+				btns.infoBtn.innerHTML = 'SCORE DEALER'
+				break
+			case 1: 
+				scoreHand(dealer)
+				console.log('dealer')
+				btns.infoBtn.innerHTML = 'SCORE CRIB'
+				break
+			case 2:
+				displayCrib()
+				scoreCrib(dealer, true)
+				console.log('crib')
+				btns.infoBtn.innerHTML = 'START NEW ROUND'
+				endRound()
+		}
+		clicks += 1
+	})
+	
+	//scoreHand(dealer)
+	//scoreCrib(dealer)
+};
 
 // let options = {once: true}
-
-
-
-	// play cards
-		//non dealer starts
-		// keep track of turns
-		// have logic in for pairs, 3x, 4x, straights (nonconsecutive)
-		//cut off at 31 and award GO - both players playout until GO
-		// award POINTS as you go
-		// loop around until all cards played
-			// if player has no cards- say Go and other player finishes
 
 	//count cards
 		//non dealer goes first
