@@ -10,7 +10,7 @@ function updateScore(who) {
 		let playerScoreTxt = document.getElementById('player-score-txt')
 			playerScoreTxt.innerHTML = player.score
 	}
-    if(who.score >= 121) {
+    if(who.score > 121) {
         endGame()
     }
 
@@ -27,8 +27,8 @@ function scoreHand(turn, crib) {
     pts += score15(turn.hand)
     pts += scorePairs(turn.hand)
     pts += scoreRun(turn.hand)
-    //pts += scoreFlush(turn.hand, crib)
-    //pts += rightJack(turn.hand)
+    pts += scoreFlush(turn.hand, crib)
+    pts += rightJack(turn.hand)
     turn.score += pts
     turn.handPoints += pts
     txt = document.getElementById('info1')
@@ -50,8 +50,8 @@ function scoreCrib(turn) {
     pts += score15(crib)
     pts += scorePairs(crib)
     pts += scoreRun(crib)
-    //pts += scoreFlush(crib, true)
-    //pts += rightJack(crib)
+    pts += scoreFlush(crib, true)
+    pts += rightJack(crib)
     turn.score += pts
     turn.handPoints += pts
     txt = document.getElementById('info1')
@@ -116,11 +116,6 @@ function scoreRun(hand) {
        for (let j = i + 1; j < handRanks.length; j++) {
          for (let k = j + 1; k < handRanks.length; k++) {         
           for (let l = k + 1; l < handRanks.length; l++) {
-            // for (let m = l + 1; m < handRanks.length; m++) {
-            //   if (handRanks[i] + 1 === handRanks[j] &&handRanks[j] + 1 === handRanks[k] && handRanks[k] + 1 ===     handRanks[l] && handRanks[l] + 1 === handRanks[m]) {
-            //     count += 1
-            //   }
-            //  }; 
             if ((handRanks[i] === handRanks[j] -1) && (handRanks[j] === handRanks[k] - 1) && (handRanks[k] === handRanks[l] - 1)) {
               count -=2
             }  
@@ -131,21 +126,25 @@ function scoreRun(hand) {
         };
       };
     };
+    console.log('runs', count)
     return count
   }
 
 //rework maybe
 function scoreFlush(hand, crib) {
+
     let count = 0
-    let flushSuit = hand[0].suits
-    for (let i = 0; i < 4; i++) {
-        if (hand[i].suits === flushSuit) {
+    for(let i = 0; i < hand.length - 1; i++) {
+        if (hand[0].suit === hand[i].suit) {
             count += 1
         }
-    } if (count === 4 && flushSuit === hand[4].suits) {
+    }
+    if (count < 4) {
+        count = 0
+    } else if (count === 4 && hand[0].suit === hand[4].sui) {
         count += 1
-    } 
-    if (crib === true && count < 5) {
+    }
+    if (crib === true && count !== 5) {
         count = 0
     }
     return count
@@ -154,10 +153,9 @@ function scoreFlush(hand, crib) {
 function rightJack(hand) {
     let pts = 0
     for (let i = 0; i < 4; i++) {
-        if (hand[i].suits === hand[4].suits && hand[i].faceValue === 'J') {
+        if (hand[i].suit === hand[4].suit && hand[i].faceValue === 'J') {
             pts += 1
         }
-
     }
     return pts
 }

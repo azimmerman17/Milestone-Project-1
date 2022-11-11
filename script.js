@@ -215,6 +215,9 @@ function newRound() {
 		txt.id = 'info1'
 	infoDiv.append(btns.infoBtn, txt)
 	playRound = {numPlayedCards: 0, setCards: [], count: 0, goPts: 1, playedCards:[]}
+	crib = []
+	player.hand = []
+	ai.hand =[]
 	changeDealer()
 	startRound()
 }
@@ -381,6 +384,7 @@ function playPhase() {
 	let dealer = getDealer()
 	let nonDealer = getNonDealer()
 	ai.playedCards = []
+	player.playedCards = 0
 	nonDealer.go = false
 	dealer.go = false
 	nonDealer.turn = true
@@ -395,50 +399,45 @@ function playPhase() {
 };
 
 function playCard(turn, i) {
-	checkGo(player)
-	checkGo(ai)	
+	checkGo(turn)
 	if (ai.go === true && player.go === true) {  ///this needs to be moved
 		resetPlay(turn)
 	} else if (turn.go === true) {
-		console.log(turn.go)
 		changeTurn()
 	}
-	if (player.turn === true) {
+	if (player.turn === true && i !== 'a') {
 		playerTurn(i)
-	} else {
+	} else if (ai.turn === true) { player.turn === true
 		aiTurn()
-	};
-	if(ai.hand.length === 0) {
-		changeTurn()
 	}
+
 };
 
 //check to see if there is a vaild play
 function checkGo(turn) {
 	canPlay = false
 	for (let i = 0; i < turn.hand.length; i++) {
-		if (turn.hand[i].gameValue + playRound.count < 32 && turn.hand.loc !== 'played') {
+		if (turn.hand[i].gameValue + playRound.count < 32 && turn.hand[i].loc !== 'played') {
 		 	canPlay = true
 		}
 		if(canPlay !== true) {
 			turn.go = true
 		}
 	};
+	if(ai.hand.length === 0 && ai.turn === true) {
+		ai.go = true
+	}
+	if(player.playedCards === 4 && player.turn === true) {
+		player.go = true
+	}
 };
 
 function playerTurn(i) {
 	if (player.go === false) {
 		playerPlay(i)
-		//let options = {once: true}
-		// for (let i = 0; i < btns.playerCards.length; i++) {
-		// 	btns.playerCards[i].addEventListener('click', function () {
-		// 		playerPlay(i)
-		// 	})
-		// }
 	} else {
 		scoreGo(ai)
 		changeTurn()
-		playCard(ai)
 	};
 };
 
@@ -452,7 +451,7 @@ function playerPlay(i) {
 		btns.infoBtn.innerHTML = playRound.count
 		displayCard(player.hand[i])
 		playRound.numPlayedCards += 1
-		//player.hand.splice(i,1)
+		player.playedCards += 1
 		scorePlay(player)
 		if (playRound.numPlayedCards === 8) {	
 			btns.infoBtn.innerHTML = 'CONTINUE'
@@ -463,8 +462,9 @@ function playerPlay(i) {
 		}, options)
 		}
 		changeTurn()
-		playCard(ai)
-	} else {console.log('Invalid')};
+		//playCard(ai)
+	} else {changeTurn()
+	};
 
 
 };
@@ -492,10 +492,8 @@ function aiTurn() {
 			btns.infoBtn.addEventListener('click', function() {
 				returnCards()
 		}, options)
-		} else {
-			changeTurn()
-		}
-
+		} 
+		changeTurn()
 		//playCard(player)
 	} else {
 		scoreGo(player)
@@ -508,9 +506,11 @@ function changeTurn() {
 	if (player.turn === true) {
 		ai.turn = true
 		player.turn = false
+		playCard(ai)
 	} else {
 		ai.turn = false
 		player.turn = true
+		playCard(player, 'a')
 	};
 };
 
@@ -555,19 +555,16 @@ function countHands() {
 	btns.infoBtn.addEventListener('click', function() {
 		switch (clicks) {
 			case 0: 
-				console.log('nondealer')
 				scoreHand(nonDealer)
 				btns.infoBtn.innerHTML = 'SCORE DEALER'
 				break
 			case 1: 
 				scoreHand(dealer)
-				console.log('dealer')
 				btns.infoBtn.innerHTML = 'SCORE CRIB'
 				break
 			case 2:
 				displayCrib()
 				scoreCrib(dealer)
-				console.log('crib')
 				btns.infoBtn.innerHTML = 'START NEW ROUND'
 				clicks = 10
 				endRound()
@@ -581,7 +578,6 @@ function endRound() {
 	let options = {once: true}
 	btns.infoBtn.addEventListener('click', function() {
 		for (let i = 4; i < 6; i++) {
-			//put the player cards div back to default
 			let playerReturn = document.getElementById('player-hand')
 			let playerReturnCard =document.createElement('button');
 				playerReturnCard.className = 'player-card card'
@@ -607,35 +603,19 @@ function endRound() {
 		newRound()
 	}, options)
 }
-// let options = {once: true}
 
-	//count cards
-		//non dealer goes first
-		//look for all combinations of POINTS - probably need to have the cards reorder for straights
-		// fifteens?? we'll figure it out, watch out for duplicates 
-		//flush of 4 or 5
-		//starter card gets used
-		//right jack - ignore starter card - maybe look for flush and jack, 
-		//then add the starter card (+1 to flush if starter = suit)
-
-	//crib to dealer
-		//same as above although, no flush of 4,
-		//award POINTS to dealers
-
-	// start new round
-//....
-	//end game as soon as A PLAYER points >= 121
-	//skunk = loss/win with 90 or less  (2 wins/loses)
-	// 2x skunk = loos/wins with 60 or loss (4 wins/loses)
-
-	//stats to track
-		//best hand (avg)
-		//best crib (avg)
-		//best play (avg)
-		//W-L
-		//skunks
-
-
-		//CPU  start with straight randoms  (easy)
-		//CPU if time add logic - calculates best hand/play - google is your friend (normal)
-		//Self count points in hand & crib-  not in play -  add muggings for missed points (hard)
+ function endGame() {
+	let finalDiv = document.querySelector('.play-area')
+	for (let i = 0; i < btns.playArea.length; i++) {
+		btns.playArea[i].remove()
+	}
+	let endGameTxt = document.createElement('h1')
+	if (player.score > 120 && ai.score <91) {
+		endGameTxt.innerHTML = 'You skunked the AI'
+	} else if (player.score > 120) {
+		endGameTxt.innerHTML = 'You win'
+	}  else if (ai.score > 120 && player.score <91) {
+		endGameTxt.innerHTML = 'You were skunked'
+	}else { 'You lose'}
+	finalDiv.append(endGameTxt)
+}
