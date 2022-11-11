@@ -405,7 +405,7 @@ function playCard(turn, i) {
 	} else if (turn.go === true) {
 		changeTurn()
 	}
-	if (player.turn === true && i !== 'a') {
+	if (player.turn === true) {
 		playerTurn(i)
 	} else if (ai.turn === true) { player.turn === true
 		aiTurn()
@@ -510,7 +510,7 @@ function changeTurn() {
 	} else {
 		ai.turn = false
 		player.turn = true
-		playCard(player, 'a')
+		playCard(player)
 	};
 };
 

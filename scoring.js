@@ -126,7 +126,6 @@ function scoreRun(hand) {
         };
       };
     };
-    console.log('runs', count)
     return count
   }
 
