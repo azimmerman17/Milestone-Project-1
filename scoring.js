@@ -10,7 +10,7 @@ function updateScore(who) {
 		let playerScoreTxt = document.getElementById('player-score-txt')
 			playerScoreTxt.innerHTML = player.score
 	}
-    if(who.score > 121) {
+    if(ai.go > 121 || player.score > 121) {
         endGame()
     }
 
@@ -207,17 +207,14 @@ function playPairs(cards) {
 		switch (pairs) {
 			case 1: 
 				points = 2
-                let txt = document.querySelector('#info1')
 			    txt.innerHTML = 'Pair for 2'
 				break
 			case 2: 
 				points = 6
-                txt = document.querySelector('#info1')
 				txt.innerHTML = '3 of a Kind for 6'
 				break
 			case 3: 
 				points = 12
-                txt = document.querySelector('#info1')
 				txt.innerHTML = '4 of a Kind for 12'
 				break
 		}
@@ -225,7 +222,7 @@ function playPairs(cards) {
 	return points
 }
 
-function scoreLastCard(playedCards) {
+function scoreLastCard() {
     if (player.turn === true) {
         player.score += 1
         player.playPoints += 1

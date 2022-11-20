@@ -76,5 +76,5 @@ Bugs:
 
 When discarding for the crib if you have 3 cards selected at any time, the game will not continue
 Game has issues changing turns when it comes to resetting the count and having players take another turn
-Scoring for Flushes, Runs, and Right Jack 
+Scoring with Runs in play Phase
 

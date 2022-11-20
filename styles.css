@@ -62,6 +62,7 @@ progress {
     color: blue;
     background-color: #fff;
     border: none;
+    vertical-align: text-top;
 
 }
 
@@ -110,13 +111,9 @@ progress {
     background-color: blue;
     color: white;
     font-weight: bold ;
+    height: 30px
 }
 #info-btn:hover{
-    width: 98%;
-    margin: 1%;
-    background-color: blue;
-    color: white;
-    font-weight: bold;
     opacity: 75%;
 }
 
@@ -144,3 +141,22 @@ small {
     text-decoration: none;
 }
 
+#count-div {
+    background-color: black;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 4px;
+    visibility: hidden;
+}
+
+#count {
+    color: #fff;
+    font-size: 40px;
+    padding: 25px;
+    margin: auto;
+}
+
+.information-div {
+    height: 100%;
+}
